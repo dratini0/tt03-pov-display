@@ -4,28 +4,21 @@
 (* generator = "Amaranth" *)
 module controller(rst, \$1 , clk);
   reg \$auto$verilog_backend.cc:2083:dump_module$5  = 0;
-  (* src = "/home/bala/tt03-pov-display/src/pov_display.py:54" *)
   output [7:0] \$1 ;
   reg [7:0] \$1  = 8'h00;
-  (* src = "/home/bala/tt03-pov-display/src/pov_display.py:54" *)
   reg [7:0] \$1$next ;
-  (* src = "/home/bala/tt03-pov-display/src/pov_display.py:58" *)
   wire [8:0] \$2 ;
-  (* src = "/home/bala/tt03-pov-display/src/pov_display.py:58" *)
   wire [8:0] \$3 ;
-  (* src = "/home/bala/tt03-pov-display/src/pov_display.py:117" *)
   input clk;
   wire clk;
-  (* src = "/home/bala/tt03-pov-display/src/pov_display.py:117" *)
   input rst;
   wire rst;
-  assign \$3  = \$1  + (* src = "/home/bala/tt03-pov-display/src/pov_display.py:58" *) 1'h1;
+  assign \$3  = \$1  + 1'h1;
   always @(posedge clk)
     \$1  <= \$1$next ;
   always @* begin
     if (\$auto$verilog_backend.cc:2083:dump_module$5 ) begin end
     \$1$next  = \$3 [7:0];
-    (* src = "/home/bala/tt03-pov-display/.venv/lib/python3.11/site-packages/amaranth/hdl/xfrm.py:519" *)
     casez (rst)
       1'h1:
           \$1$next  = 8'h00;
@@ -37,52 +30,32 @@ endmodule
 (* \amaranth.hierarchy  = "dratini0_pov_display_top.display" *)
 (* generator = "Amaranth" *)
 module display(rst, \$1 , \$2 , \$3 , \$4 , \$5 , clk);
-  (* src = "/home/bala/tt03-pov-display/src/pov_display.py:64" *)
   input \$1 ;
   wire \$1 ;
-  (* src = "/home/bala/tt03-pov-display/src/pov_display.py:53" *)
   wire \$12 ;
-  (* src = "/home/bala/tt03-pov-display/src/pov_display.py:25" *)
   wire [7:0] \$13 ;
-  (* src = "/home/bala/tt03-pov-display/src/pov_display.py:65" *)
   input \$2 ;
   wire \$2 ;
-  (* src = "/home/bala/tt03-pov-display/src/pov_display.py:66" *)
   input \$3 ;
   wire \$3 ;
-  (* src = "/home/bala/tt03-pov-display/src/pov_display.py:67" *)
   input \$4 ;
   wire \$4 ;
-  (* src = "/home/bala/tt03-pov-display/src/pov_display.py:68" *)
   output [7:0] \$5 ;
   wire [7:0] \$5 ;
-  (* src = "/home/bala/tt03-pov-display/src/pov_display.py:76" *)
   wire [4:0] None_r_addr;
-  (* src = "/home/bala/tt03-pov-display/src/pov_display.py:76" *)
   wire [7:0] None_r_data;
-  (* src = "/home/bala/tt03-pov-display/src/pov_display.py:77" *)
   wire [4:0] None_w_addr;
-  (* src = "/home/bala/tt03-pov-display/src/pov_display.py:77" *)
   wire [7:0] None_w_data;
-  (* src = "/home/bala/tt03-pov-display/src/pov_display.py:77" *)
   wire None_w_en;
-  (* src = "/home/bala/tt03-pov-display/src/pov_display.py:117" *)
   input clk;
   wire clk;
-  (* src = "/home/bala/tt03-pov-display/src/pov_display.py:54" *)
   wire [7:0] controller_None;
-  (* src = "/home/bala/tt03-pov-display/src/pov_display.py:117" *)
   input rst;
   wire rst;
-  (* src = "/home/bala/tt03-pov-display/src/pov_display.py:21" *)
   wire spi_None;
-  (* src = "/home/bala/tt03-pov-display/src/pov_display.py:26" *)
   wire [7:0] \spi_None$10 ;
-  (* src = "/home/bala/tt03-pov-display/src/pov_display.py:27" *)
   wire \spi_None$11 ;
-  (* src = "/home/bala/tt03-pov-display/src/pov_display.py:22" *)
   wire \spi_None$8 ;
-  (* src = "/home/bala/tt03-pov-display/src/pov_display.py:23" *)
   wire \spi_None$9 ;
   reg [7:0] \$6  [31:0];
   initial begin
@@ -158,25 +131,16 @@ endmodule
 (* top =  1  *)
 (* generator = "Amaranth" *)
 module dratini0_pov_display_top(\$2 , \$1 );
-  (* src = "/home/bala/tt03-pov-display/src/pov_display.py:101" *)
   input [7:0] \$1 ;
   wire [7:0] \$1 ;
-  (* src = "/home/bala/tt03-pov-display/src/pov_display.py:102" *)
   output [7:0] \$2 ;
   wire [7:0] \$2 ;
-  (* src = "/home/bala/tt03-pov-display/src/pov_display.py:64" *)
   wire display_None;
-  (* src = "/home/bala/tt03-pov-display/src/pov_display.py:65" *)
   wire \display_None$3 ;
-  (* src = "/home/bala/tt03-pov-display/src/pov_display.py:66" *)
   wire \display_None$4 ;
-  (* src = "/home/bala/tt03-pov-display/src/pov_display.py:67" *)
   wire \display_None$5 ;
-  (* src = "/home/bala/tt03-pov-display/src/pov_display.py:68" *)
   wire [7:0] \display_None$6 ;
-  (* src = "/home/bala/tt03-pov-display/src/pov_display.py:117" *)
   wire display_clk;
-  (* src = "/home/bala/tt03-pov-display/src/pov_display.py:117" *)
   wire display_rst;
   display display (
     display_None,
@@ -200,34 +164,25 @@ endmodule
 (* generator = "Amaranth" *)
 module sck_edge(rst, \$1 , \$2 , clk);
   reg \$auto$verilog_backend.cc:2083:dump_module$6  = 0;
-  (* src = "/home/bala/tt03-pov-display/src/pov_display.py:8" *)
   input \$1 ;
   wire \$1 ;
-  (* src = "/home/bala/tt03-pov-display/src/pov_display.py:10" *)
   output \$2 ;
   wire \$2 ;
-  (* src = "/home/bala/tt03-pov-display/src/pov_display.py:9" *)
   reg \$3  = 1'h0;
-  (* src = "/home/bala/tt03-pov-display/src/pov_display.py:9" *)
   reg \$3$next ;
-  (* src = "/home/bala/tt03-pov-display/src/pov_display.py:15" *)
   wire \$4 ;
-  (* src = "/home/bala/tt03-pov-display/src/pov_display.py:15" *)
   wire \$6 ;
-  (* src = "/home/bala/tt03-pov-display/src/pov_display.py:117" *)
   input clk;
   wire clk;
-  (* src = "/home/bala/tt03-pov-display/src/pov_display.py:117" *)
   input rst;
   wire rst;
-  assign \$4  = ~ (* src = "/home/bala/tt03-pov-display/src/pov_display.py:15" *) \$3 ;
-  assign \$6  = \$1  & (* src = "/home/bala/tt03-pov-display/src/pov_display.py:15" *) \$4 ;
+  assign \$4  = ~ \$3 ;
+  assign \$6  = \$1  & \$4 ;
   always @(posedge clk)
     \$3  <= \$3$next ;
   always @* begin
     if (\$auto$verilog_backend.cc:2083:dump_module$6 ) begin end
     \$3$next  = \$1 ;
-    (* src = "/home/bala/tt03-pov-display/.venv/lib/python3.11/site-packages/amaranth/hdl/xfrm.py:519" *)
     casez (rst)
       1'h1:
           \$3$next  = 1'h0;
@@ -240,65 +195,43 @@ endmodule
 (* generator = "Amaranth" *)
 module spi(rst, \$1 , \$2 , \$3 , \$4 , \$5 , clk);
   reg \$auto$verilog_backend.cc:2083:dump_module$7  = 0;
-  (* src = "/home/bala/tt03-pov-display/src/pov_display.py:21" *)
   input \$1 ;
   wire \$1 ;
-  (* src = "/home/bala/tt03-pov-display/src/pov_display.py:41" *)
   wire \$10 ;
-  (* src = "/home/bala/tt03-pov-display/src/pov_display.py:43" *)
   wire [3:0] \$12 ;
-  (* src = "/home/bala/tt03-pov-display/src/pov_display.py:43" *)
   wire [3:0] \$13 ;
-  (* src = "/home/bala/tt03-pov-display/src/pov_display.py:34" *)
   wire \$15 ;
-  (* src = "/home/bala/tt03-pov-display/src/pov_display.py:41" *)
   wire \$17 ;
-  (* src = "/home/bala/tt03-pov-display/src/pov_display.py:44" *)
   wire [9:0] \$19 ;
-  (* src = "/home/bala/tt03-pov-display/src/pov_display.py:22" *)
   input \$2 ;
   wire \$2 ;
-  (* src = "/home/bala/tt03-pov-display/src/pov_display.py:44" *)
   wire [9:0] \$20 ;
-  (* src = "/home/bala/tt03-pov-display/src/pov_display.py:46" *)
   wire \$22 ;
-  (* src = "/home/bala/tt03-pov-display/src/pov_display.py:46" *)
   wire \$24 ;
-  (* src = "/home/bala/tt03-pov-display/src/pov_display.py:23" *)
   input \$3 ;
   wire \$3 ;
-  (* src = "/home/bala/tt03-pov-display/src/pov_display.py:26" *)
   output [7:0] \$4 ;
   reg [7:0] \$4  = 8'h00;
-  (* src = "/home/bala/tt03-pov-display/src/pov_display.py:26" *)
   reg [7:0] \$4$next ;
-  (* src = "/home/bala/tt03-pov-display/src/pov_display.py:27" *)
   output \$5 ;
   wire \$5 ;
-  (* src = "/home/bala/tt03-pov-display/src/pov_display.py:29" *)
   reg [2:0] \$7  = 3'h0;
-  (* src = "/home/bala/tt03-pov-display/src/pov_display.py:29" *)
   reg [2:0] \$7$next ;
-  (* src = "/home/bala/tt03-pov-display/src/pov_display.py:34" *)
   wire \$8 ;
-  (* src = "/home/bala/tt03-pov-display/src/pov_display.py:117" *)
   input clk;
   wire clk;
-  (* src = "/home/bala/tt03-pov-display/src/pov_display.py:117" *)
   input rst;
   wire rst;
-  (* src = "/home/bala/tt03-pov-display/src/pov_display.py:8" *)
   wire sck_edge_None;
-  (* src = "/home/bala/tt03-pov-display/src/pov_display.py:10" *)
   wire \sck_edge_None$6 ;
-  assign \$10  = \$8  & (* src = "/home/bala/tt03-pov-display/src/pov_display.py:41" *) \sck_edge_None$6 ;
-  assign \$13  = \$7  + (* src = "/home/bala/tt03-pov-display/src/pov_display.py:43" *) 1'h1;
-  assign \$15  = ~ (* src = "/home/bala/tt03-pov-display/src/pov_display.py:34" *) \$1 ;
-  assign \$17  = \$15  & (* src = "/home/bala/tt03-pov-display/src/pov_display.py:41" *) \sck_edge_None$6 ;
-  assign \$20  = { \$4 , 1'h0 } + (* src = "/home/bala/tt03-pov-display/src/pov_display.py:44" *) \$3 ;
-  assign \$22  = \$7  == (* src = "/home/bala/tt03-pov-display/src/pov_display.py:46" *) 3'h7;
-  assign \$24  = \sck_edge_None$6  & (* src = "/home/bala/tt03-pov-display/src/pov_display.py:46" *) \$22 ;
-  assign \$8  = ~ (* src = "/home/bala/tt03-pov-display/src/pov_display.py:34" *) \$1 ;
+  assign \$10  = \$8  & \sck_edge_None$6 ;
+  assign \$13  = \$7  + 1'h1;
+  assign \$15  = ~ \$1 ;
+  assign \$17  = \$15  & \sck_edge_None$6 ;
+  assign \$20  = { \$4 , 1'h0 } + \$3 ;
+  assign \$22  = \$7  == 3'h7;
+  assign \$24  = \sck_edge_None$6  & \$22 ;
+  assign \$8  = ~ \$1 ;
   always @(posedge clk)
     \$4  <= \$4$next ;
   always @(posedge clk)
@@ -312,13 +245,11 @@ module spi(rst, \$1 , \$2 , \$3 , \$4 , \$5 , clk);
   always @* begin
     if (\$auto$verilog_backend.cc:2083:dump_module$7 ) begin end
     \$7$next  = \$7 ;
-    (* src = "/home/bala/tt03-pov-display/src/pov_display.py:41" *)
     casez (\$10 )
       /* src = "/home/bala/tt03-pov-display/src/pov_display.py:41" */
       1'h1:
           \$7$next  = \$13 [2:0];
     endcase
-    (* src = "/home/bala/tt03-pov-display/.venv/lib/python3.11/site-packages/amaranth/hdl/xfrm.py:519" *)
     casez (rst)
       1'h1:
           \$7$next  = 3'h0;
@@ -327,13 +258,11 @@ module spi(rst, \$1 , \$2 , \$3 , \$4 , \$5 , clk);
   always @* begin
     if (\$auto$verilog_backend.cc:2083:dump_module$7 ) begin end
     \$4$next  = \$4 ;
-    (* src = "/home/bala/tt03-pov-display/src/pov_display.py:41" *)
     casez (\$17 )
       /* src = "/home/bala/tt03-pov-display/src/pov_display.py:41" */
       1'h1:
           \$4$next  = \$20 [7:0];
     endcase
-    (* src = "/home/bala/tt03-pov-display/.venv/lib/python3.11/site-packages/amaranth/hdl/xfrm.py:519" *)
     casez (rst)
       1'h1:
           \$4$next  = 8'h00;

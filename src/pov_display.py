@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 from amaranth import *
-from amaranth.cli import main
+from amaranth.back import verilog
 
 class EdgeDetect(Elaboratable):
     def __init__(self):
@@ -134,4 +134,12 @@ class PovDisplayWrapper(Elaboratable):
 
 if __name__ == "__main__":
     top = PovDisplayWrapper()
-    main(top, ports=[top.io_in, top.io_out], name="dratini0_pov_display_top")
+    print(
+        verilog.convert(
+            top,
+            ports=[top.io_in, top.io_out],
+            name="dratini0_pov_display_top",
+            emit_src=False,
+            strip_internal_attrs=True,
+        )
+    )
