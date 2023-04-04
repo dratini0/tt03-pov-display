@@ -5,9 +5,9 @@ from amaranth.back import verilog
 
 class EdgeDetect(Elaboratable):
     def __init__(self):
-        self.in_ = Signal()
-        self.last_in = Signal()
-        self.out = Signal()
+        self.in_ = Signal(name="in")
+        self.last_in = Signal(name="last_in")
+        self.out = Signal(name="out")
 
     def elaborate(self, platform):
         m = Module()
@@ -18,15 +18,15 @@ class EdgeDetect(Elaboratable):
 
 class SPI(Elaboratable):
     def __init__(self):
-        self.cs_n = Signal()
-        self.sck = Signal()
-        self.mosi = Signal()
+        self.cs_n = Signal(name="cs_n")
+        self.sck = Signal(name="sck")
+        self.mosi = Signal(name="mosi")
 
-        self.addr = Signal(8)
-        self.data = Signal(8)
-        self.we = Signal()
+        self.addr = Signal(8, name="addr")
+        self.data = Signal(8, name="data")
+        self.we = Signal(name="we")
 
-        self.bit_index = Signal(3)
+        self.bit_index = Signal(3, name="bit_index")
 
         self.sck_edge = EdgeDetect()
 
@@ -50,8 +50,8 @@ class SPI(Elaboratable):
 
 class Controller(Elaboratable):
     def __init__(self):
-        self.hall_in = Signal()
-        self.addr = Signal(8)
+        self.hall_in = Signal(name="hall_in")
+        self.addr = Signal(8, name="addr")
 
     def elaborate(self, platform):
         m = Module()
@@ -61,11 +61,11 @@ class Controller(Elaboratable):
 
 class PovDisplay(Elaboratable):
     def __init__(self):
-        self.cs_n = Signal()
-        self.sck = Signal()
-        self.mosi = Signal()
-        self.hall_in = Signal()
-        self.leds = Signal(8)
+        self.cs_n = Signal(name="cs_n")
+        self.sck = Signal(name="sck")
+        self.mosi = Signal(name="mosi")
+        self.hall_in = Signal(name="hall_in")
+        self.leds = Signal(8, name="leds")
 
         self.mem = Memory(width=8, depth=32, init=[])
         self.spi = SPI()
@@ -98,8 +98,8 @@ class PovDisplay(Elaboratable):
 class PovDisplayWrapper(Elaboratable):
     """The top level, responsible for pinout definition"""
     def __init__(self):
-        self.io_in = Signal(8)
-        self.io_out = Signal(8)
+        self.io_in = Signal(8, name="io_in")
+        self.io_out = Signal(8, name="io_out")
         self.display = PovDisplay()
 
     def elaborate(self, platform):

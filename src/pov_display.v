@@ -2,275 +2,275 @@
 
 (* \amaranth.hierarchy  = "dratini0_pov_display_top.display.controller" *)
 (* generator = "Amaranth" *)
-module controller(rst, \$1 , clk);
+module controller(rst, addr, clk);
   reg \$auto$verilog_backend.cc:2083:dump_module$5  = 0;
-  output [7:0] \$1 ;
-  reg [7:0] \$1  = 8'h00;
-  reg [7:0] \$1$next ;
+  wire [8:0] \$1 ;
   wire [8:0] \$2 ;
-  wire [8:0] \$3 ;
+  output [7:0] addr;
+  reg [7:0] addr = 8'h00;
+  reg [7:0] \addr$next ;
   input clk;
   wire clk;
   input rst;
   wire rst;
-  assign \$3  = \$1  + 1'h1;
+  assign \$2  = addr + 1'h1;
   always @(posedge clk)
-    \$1  <= \$1$next ;
+    addr <= \addr$next ;
   always @* begin
     if (\$auto$verilog_backend.cc:2083:dump_module$5 ) begin end
-    \$1$next  = \$3 [7:0];
+    \addr$next  = \$2 [7:0];
     casez (rst)
       1'h1:
-          \$1$next  = 8'h00;
+          \addr$next  = 8'h00;
     endcase
   end
-  assign \$2  = \$3 ;
+  assign \$1  = \$2 ;
 endmodule
 
 (* \amaranth.hierarchy  = "dratini0_pov_display_top.display" *)
 (* generator = "Amaranth" *)
-module display(rst, \$1 , \$2 , \$3 , \$4 , \$5 , clk);
-  input \$1 ;
-  wire \$1 ;
-  wire \$12 ;
-  wire [7:0] \$13 ;
-  input \$2 ;
-  wire \$2 ;
-  input \$3 ;
-  wire \$3 ;
-  input \$4 ;
-  wire \$4 ;
-  output [7:0] \$5 ;
-  wire [7:0] \$5 ;
+module display(rst, cs_n, sck, mosi, hall_in, leds, clk);
   wire [4:0] None_r_addr;
   wire [7:0] None_r_data;
   wire [4:0] None_w_addr;
   wire [7:0] None_w_data;
   wire None_w_en;
+  wire [7:0] addr;
   input clk;
   wire clk;
-  wire [7:0] controller_None;
+  wire [7:0] controller_addr;
+  input cs_n;
+  wire cs_n;
+  input hall_in;
+  wire hall_in;
+  wire \hall_in$3 ;
+  output [7:0] leds;
+  wire [7:0] leds;
+  input mosi;
+  wire mosi;
   input rst;
   wire rst;
-  wire spi_None;
-  wire [7:0] \spi_None$10 ;
-  wire \spi_None$11 ;
-  wire \spi_None$8 ;
-  wire \spi_None$9 ;
-  reg [7:0] \$6  [31:0];
+  input sck;
+  wire sck;
+  wire spi_cs_n;
+  wire [7:0] spi_data;
+  wire spi_mosi;
+  wire spi_sck;
+  wire spi_we;
+  reg [7:0] \$1  [31:0];
   initial begin
-    \$6 [0] = 8'h00;
-    \$6 [1] = 8'h00;
-    \$6 [2] = 8'h00;
-    \$6 [3] = 8'h00;
-    \$6 [4] = 8'h00;
-    \$6 [5] = 8'h00;
-    \$6 [6] = 8'h00;
-    \$6 [7] = 8'h00;
-    \$6 [8] = 8'h00;
-    \$6 [9] = 8'h00;
-    \$6 [10] = 8'h00;
-    \$6 [11] = 8'h00;
-    \$6 [12] = 8'h00;
-    \$6 [13] = 8'h00;
-    \$6 [14] = 8'h00;
-    \$6 [15] = 8'h00;
-    \$6 [16] = 8'h00;
-    \$6 [17] = 8'h00;
-    \$6 [18] = 8'h00;
-    \$6 [19] = 8'h00;
-    \$6 [20] = 8'h00;
-    \$6 [21] = 8'h00;
-    \$6 [22] = 8'h00;
-    \$6 [23] = 8'h00;
-    \$6 [24] = 8'h00;
-    \$6 [25] = 8'h00;
-    \$6 [26] = 8'h00;
-    \$6 [27] = 8'h00;
-    \$6 [28] = 8'h00;
-    \$6 [29] = 8'h00;
-    \$6 [30] = 8'h00;
-    \$6 [31] = 8'h00;
+    \$1 [0] = 8'h00;
+    \$1 [1] = 8'h00;
+    \$1 [2] = 8'h00;
+    \$1 [3] = 8'h00;
+    \$1 [4] = 8'h00;
+    \$1 [5] = 8'h00;
+    \$1 [6] = 8'h00;
+    \$1 [7] = 8'h00;
+    \$1 [8] = 8'h00;
+    \$1 [9] = 8'h00;
+    \$1 [10] = 8'h00;
+    \$1 [11] = 8'h00;
+    \$1 [12] = 8'h00;
+    \$1 [13] = 8'h00;
+    \$1 [14] = 8'h00;
+    \$1 [15] = 8'h00;
+    \$1 [16] = 8'h00;
+    \$1 [17] = 8'h00;
+    \$1 [18] = 8'h00;
+    \$1 [19] = 8'h00;
+    \$1 [20] = 8'h00;
+    \$1 [21] = 8'h00;
+    \$1 [22] = 8'h00;
+    \$1 [23] = 8'h00;
+    \$1 [24] = 8'h00;
+    \$1 [25] = 8'h00;
+    \$1 [26] = 8'h00;
+    \$1 [27] = 8'h00;
+    \$1 [28] = 8'h00;
+    \$1 [29] = 8'h00;
+    \$1 [30] = 8'h00;
+    \$1 [31] = 8'h00;
   end
   always @(posedge clk) begin
     if (None_w_en)
-      \$6 [5'h00] <= None_w_data;
+      \$1 [5'h00] <= None_w_data;
   end
   reg [4:0] _0_;
   always @(posedge clk) begin
     _0_ <= None_r_addr;
   end
-  assign None_r_data = \$6 [_0_];
+  assign None_r_data = \$1 [_0_];
   controller controller (
-    controller_None,
+    .addr(controller_addr),
     .clk(clk),
     .rst(rst)
   );
   spi spi (
-    spi_None,
-    \spi_None$8 ,
-    \spi_None$9 ,
-    \spi_None$10 ,
-    \spi_None$11 ,
     .clk(clk),
-    .rst(rst)
+    .cs_n(spi_cs_n),
+    .data(spi_data),
+    .mosi(spi_mosi),
+    .rst(rst),
+    .sck(spi_sck),
+    .we(spi_we)
   );
-  assign \$13  = 8'h00;
-  assign None_w_en = \spi_None$11 ;
-  assign None_w_data = \spi_None$10 ;
+  assign addr = 8'h00;
+  assign None_w_en = spi_we;
+  assign None_w_data = spi_data;
   assign None_w_addr = 5'h00;
-  assign \$5  = None_r_data;
-  assign None_r_addr = controller_None[4:0];
-  assign \$12  = \$4 ;
-  assign \spi_None$9  = \$3 ;
-  assign \spi_None$8  = \$2 ;
-  assign spi_None = \$1 ;
+  assign leds = None_r_data;
+  assign None_r_addr = controller_addr[4:0];
+  assign \hall_in$3  = hall_in;
+  assign spi_mosi = mosi;
+  assign spi_sck = sck;
+  assign spi_cs_n = cs_n;
 endmodule
 
 (* \amaranth.hierarchy  = "dratini0_pov_display_top" *)
 (* top =  1  *)
 (* generator = "Amaranth" *)
-module dratini0_pov_display_top(\$2 , \$1 );
-  input [7:0] \$1 ;
-  wire [7:0] \$1 ;
-  output [7:0] \$2 ;
-  wire [7:0] \$2 ;
-  wire display_None;
-  wire \display_None$3 ;
-  wire \display_None$4 ;
-  wire \display_None$5 ;
-  wire [7:0] \display_None$6 ;
+module dratini0_pov_display_top(io_out, io_in);
   wire display_clk;
+  wire display_cs_n;
+  wire display_hall_in;
+  wire [7:0] display_leds;
+  wire display_mosi;
   wire display_rst;
+  wire display_sck;
+  input [7:0] io_in;
+  wire [7:0] io_in;
+  output [7:0] io_out;
+  wire [7:0] io_out;
   display display (
-    display_None,
-    \display_None$3 ,
-    \display_None$4 ,
-    \display_None$5 ,
-    \display_None$6 ,
     .clk(display_clk),
-    .rst(display_rst)
+    .cs_n(display_cs_n),
+    .hall_in(display_hall_in),
+    .leds(display_leds),
+    .mosi(display_mosi),
+    .rst(display_rst),
+    .sck(display_sck)
   );
-  assign \$2  = \display_None$6 ;
-  assign \display_None$5  = \$1 [5];
-  assign \display_None$4  = \$1 [4];
-  assign \display_None$3  = \$1 [3];
-  assign display_None = \$1 [2];
-  assign display_rst = \$1 [1];
-  assign display_clk = \$1 [0];
+  assign io_out = display_leds;
+  assign display_hall_in = io_in[5];
+  assign display_mosi = io_in[4];
+  assign display_sck = io_in[3];
+  assign display_cs_n = io_in[2];
+  assign display_rst = io_in[1];
+  assign display_clk = io_in[0];
 endmodule
 
 (* \amaranth.hierarchy  = "dratini0_pov_display_top.display.spi.sck_edge" *)
 (* generator = "Amaranth" *)
-module sck_edge(rst, \$1 , \$2 , clk);
+module sck_edge(rst, in, out, clk);
   reg \$auto$verilog_backend.cc:2083:dump_module$6  = 0;
-  input \$1 ;
   wire \$1 ;
-  output \$2 ;
-  wire \$2 ;
-  reg \$3  = 1'h0;
-  reg \$3$next ;
-  wire \$4 ;
-  wire \$6 ;
+  wire \$3 ;
   input clk;
   wire clk;
+  input in;
+  wire in;
+  reg last_in = 1'h0;
+  reg \last_in$next ;
+  output out;
+  wire out;
   input rst;
   wire rst;
-  assign \$4  = ~ \$3 ;
-  assign \$6  = \$1  & \$4 ;
+  assign \$1  = ~ last_in;
+  assign \$3  = in & \$1 ;
   always @(posedge clk)
-    \$3  <= \$3$next ;
+    last_in <= \last_in$next ;
   always @* begin
     if (\$auto$verilog_backend.cc:2083:dump_module$6 ) begin end
-    \$3$next  = \$1 ;
+    \last_in$next  = in;
     casez (rst)
       1'h1:
-          \$3$next  = 1'h0;
+          \last_in$next  = 1'h0;
     endcase
   end
-  assign \$2  = \$6 ;
+  assign out = \$3 ;
 endmodule
 
 (* \amaranth.hierarchy  = "dratini0_pov_display_top.display.spi" *)
 (* generator = "Amaranth" *)
-module spi(rst, \$1 , \$2 , \$3 , \$4 , \$5 , clk);
+module spi(rst, cs_n, sck, mosi, data, we, clk);
   reg \$auto$verilog_backend.cc:2083:dump_module$7  = 0;
-  input \$1 ;
   wire \$1 ;
   wire \$10 ;
-  wire [3:0] \$12 ;
-  wire [3:0] \$13 ;
+  wire [9:0] \$12 ;
+  wire [9:0] \$13 ;
   wire \$15 ;
   wire \$17 ;
-  wire [9:0] \$19 ;
-  input \$2 ;
-  wire \$2 ;
-  wire [9:0] \$20 ;
-  wire \$22 ;
-  wire \$24 ;
-  input \$3 ;
   wire \$3 ;
-  output [7:0] \$4 ;
-  reg [7:0] \$4  = 8'h00;
-  reg [7:0] \$4$next ;
-  output \$5 ;
-  wire \$5 ;
-  reg [2:0] \$7  = 3'h0;
-  reg [2:0] \$7$next ;
+  wire [3:0] \$5 ;
+  wire [3:0] \$6 ;
   wire \$8 ;
+  reg [2:0] bit_index = 3'h0;
+  reg [2:0] \bit_index$next ;
   input clk;
   wire clk;
+  input cs_n;
+  wire cs_n;
+  output [7:0] data;
+  reg [7:0] data = 8'h00;
+  reg [7:0] \data$next ;
+  input mosi;
+  wire mosi;
   input rst;
   wire rst;
-  wire sck_edge_None;
-  wire \sck_edge_None$6 ;
-  assign \$10  = \$8  & \sck_edge_None$6 ;
-  assign \$13  = \$7  + 1'h1;
-  assign \$15  = ~ \$1 ;
-  assign \$17  = \$15  & \sck_edge_None$6 ;
-  assign \$20  = { \$4 , 1'h0 } + \$3 ;
-  assign \$22  = \$7  == 3'h7;
-  assign \$24  = \sck_edge_None$6  & \$22 ;
-  assign \$8  = ~ \$1 ;
+  input sck;
+  wire sck;
+  wire sck_edge_in;
+  wire sck_edge_out;
+  output we;
+  wire we;
+  assign \$10  = \$8  & sck_edge_out;
+  assign \$13  = { data, 1'h0 } + mosi;
+  assign \$15  = bit_index == 3'h7;
+  assign \$17  = sck_edge_out & \$15 ;
+  assign \$1  = ~ cs_n;
+  assign \$3  = \$1  & sck_edge_out;
+  assign \$6  = bit_index + 1'h1;
+  assign \$8  = ~ cs_n;
   always @(posedge clk)
-    \$4  <= \$4$next ;
+    data <= \data$next ;
   always @(posedge clk)
-    \$7  <= \$7$next ;
+    bit_index <= \bit_index$next ;
   sck_edge sck_edge (
-    sck_edge_None,
-    \sck_edge_None$6 ,
     .clk(clk),
+    .in(sck_edge_in),
+    .out(sck_edge_out),
     .rst(rst)
   );
   always @* begin
     if (\$auto$verilog_backend.cc:2083:dump_module$7 ) begin end
-    \$7$next  = \$7 ;
-    casez (\$10 )
+    \bit_index$next  = bit_index;
+    casez (\$3 )
       /* src = "/home/bala/tt03-pov-display/src/pov_display.py:41" */
       1'h1:
-          \$7$next  = \$13 [2:0];
+          \bit_index$next  = \$6 [2:0];
     endcase
     casez (rst)
       1'h1:
-          \$7$next  = 3'h0;
+          \bit_index$next  = 3'h0;
     endcase
   end
   always @* begin
     if (\$auto$verilog_backend.cc:2083:dump_module$7 ) begin end
-    \$4$next  = \$4 ;
-    casez (\$17 )
+    \data$next  = data;
+    casez (\$10 )
       /* src = "/home/bala/tt03-pov-display/src/pov_display.py:41" */
       1'h1:
-          \$4$next  = \$20 [7:0];
+          \data$next  = \$13 [7:0];
     endcase
     casez (rst)
       1'h1:
-          \$4$next  = 8'h00;
+          \data$next  = 8'h00;
     endcase
   end
+  assign \$5  = \$6 ;
   assign \$12  = \$13 ;
-  assign \$19  = \$20 ;
-  assign \$5  = \$24 ;
-  assign sck_edge_None = \$2 ;
+  assign we = \$17 ;
+  assign sck_edge_in = sck;
 endmodule
 
