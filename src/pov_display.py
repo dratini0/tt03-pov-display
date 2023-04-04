@@ -69,7 +69,7 @@ class PovDisplay(Elaboratable):
         self.hall_in = Signal(name="hall_in")
         self.leds = Signal(8, name="leds")
 
-        self.mem = Memory(width=8, depth=32, init=[])
+        self.mem = Memory(width=8, depth=16, init=[])
         self.spi = SPI()
         self.controller = Controller()
 

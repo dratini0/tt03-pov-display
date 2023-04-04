@@ -30,9 +30,9 @@ endmodule
 (* \amaranth.hierarchy  = "dratini0_pov_display_top.display" *)
 (* generator = "Amaranth" *)
 module display(rst, cs_n, sck, mosi, hall_in, leds, clk);
-  wire [4:0] None_r_addr;
+  wire [3:0] None_r_addr;
   wire [7:0] None_r_data;
-  wire [4:0] None_w_addr;
+  wire [3:0] None_w_addr;
   wire [7:0] None_w_data;
   wire None_w_en;
   input clk;
@@ -57,7 +57,7 @@ module display(rst, cs_n, sck, mosi, hall_in, leds, clk);
   wire spi_mosi;
   wire spi_sck;
   wire spi_we;
-  reg [7:0] \$1  [31:0];
+  reg [7:0] \$1  [15:0];
   initial begin
     \$1 [0] = 8'h00;
     \$1 [1] = 8'h00;
@@ -75,28 +75,12 @@ module display(rst, cs_n, sck, mosi, hall_in, leds, clk);
     \$1 [13] = 8'h00;
     \$1 [14] = 8'h00;
     \$1 [15] = 8'h00;
-    \$1 [16] = 8'h00;
-    \$1 [17] = 8'h00;
-    \$1 [18] = 8'h00;
-    \$1 [19] = 8'h00;
-    \$1 [20] = 8'h00;
-    \$1 [21] = 8'h00;
-    \$1 [22] = 8'h00;
-    \$1 [23] = 8'h00;
-    \$1 [24] = 8'h00;
-    \$1 [25] = 8'h00;
-    \$1 [26] = 8'h00;
-    \$1 [27] = 8'h00;
-    \$1 [28] = 8'h00;
-    \$1 [29] = 8'h00;
-    \$1 [30] = 8'h00;
-    \$1 [31] = 8'h00;
   end
   always @(posedge clk) begin
     if (None_w_en)
       \$1 [None_w_addr] <= None_w_data;
   end
-  reg [4:0] _0_;
+  reg [3:0] _0_;
   always @(posedge clk) begin
     _0_ <= None_r_addr;
   end
@@ -118,9 +102,9 @@ module display(rst, cs_n, sck, mosi, hall_in, leds, clk);
   );
   assign None_w_en = spi_we;
   assign None_w_data = spi_data;
-  assign None_w_addr = spi_addr[4:0];
+  assign None_w_addr = spi_addr[3:0];
   assign leds = None_r_data;
-  assign None_r_addr = controller_addr[4:0];
+  assign None_r_addr = controller_addr[3:0];
   assign \hall_in$3  = hall_in;
   assign spi_mosi = mosi;
   assign spi_sck = sck;
