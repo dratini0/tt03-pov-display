@@ -3,7 +3,7 @@
 (* \amaranth.hierarchy  = "dratini0_pov_display_top.display.controller" *)
 (* generator = "Amaranth" *)
 module controller(rst, addr, clk);
-  reg \$auto$verilog_backend.cc:2083:dump_module$5  = 0;
+  reg \$auto$verilog_backend.cc:2083:dump_module$6  = 0;
   wire [8:0] \$1 ;
   wire [8:0] \$2 ;
   output [7:0] addr;
@@ -17,7 +17,7 @@ module controller(rst, addr, clk);
   always @(posedge clk)
     addr <= \addr$next ;
   always @* begin
-    if (\$auto$verilog_backend.cc:2083:dump_module$5 ) begin end
+    if (\$auto$verilog_backend.cc:2083:dump_module$6 ) begin end
     \addr$next  = \$2 [7:0];
     casez (rst)
       1'h1:
@@ -35,7 +35,6 @@ module display(rst, cs_n, sck, mosi, hall_in, leds, clk);
   wire [4:0] None_w_addr;
   wire [7:0] None_w_data;
   wire None_w_en;
-  wire [7:0] addr;
   input clk;
   wire clk;
   wire [7:0] controller_addr;
@@ -52,6 +51,7 @@ module display(rst, cs_n, sck, mosi, hall_in, leds, clk);
   wire rst;
   input sck;
   wire sck;
+  wire [7:0] spi_addr;
   wire spi_cs_n;
   wire [7:0] spi_data;
   wire spi_mosi;
@@ -94,7 +94,7 @@ module display(rst, cs_n, sck, mosi, hall_in, leds, clk);
   end
   always @(posedge clk) begin
     if (None_w_en)
-      \$1 [5'h00] <= None_w_data;
+      \$1 [None_w_addr] <= None_w_data;
   end
   reg [4:0] _0_;
   always @(posedge clk) begin
@@ -107,6 +107,7 @@ module display(rst, cs_n, sck, mosi, hall_in, leds, clk);
     .rst(rst)
   );
   spi spi (
+    .addr(spi_addr),
     .clk(clk),
     .cs_n(spi_cs_n),
     .data(spi_data),
@@ -115,10 +116,9 @@ module display(rst, cs_n, sck, mosi, hall_in, leds, clk);
     .sck(spi_sck),
     .we(spi_we)
   );
-  assign addr = 8'h00;
   assign None_w_en = spi_we;
   assign None_w_data = spi_data;
-  assign None_w_addr = 5'h00;
+  assign None_w_addr = spi_addr[4:0];
   assign leds = None_r_data;
   assign None_r_addr = controller_addr[4:0];
   assign \hall_in$3  = hall_in;
@@ -163,7 +163,7 @@ endmodule
 (* \amaranth.hierarchy  = "dratini0_pov_display_top.display.spi.sck_edge" *)
 (* generator = "Amaranth" *)
 module sck_edge(rst, in, out, clk);
-  reg \$auto$verilog_backend.cc:2083:dump_module$6  = 0;
+  reg \$auto$verilog_backend.cc:2083:dump_module$7  = 0;
   wire \$1 ;
   wire \$3 ;
   input clk;
@@ -181,7 +181,7 @@ module sck_edge(rst, in, out, clk);
   always @(posedge clk)
     last_in <= \last_in$next ;
   always @* begin
-    if (\$auto$verilog_backend.cc:2083:dump_module$6 ) begin end
+    if (\$auto$verilog_backend.cc:2083:dump_module$7 ) begin end
     \last_in$next  = in;
     casez (rst)
       1'h1:
@@ -193,18 +193,28 @@ endmodule
 
 (* \amaranth.hierarchy  = "dratini0_pov_display_top.display.spi" *)
 (* generator = "Amaranth" *)
-module spi(rst, cs_n, sck, mosi, data, we, clk);
-  reg \$auto$verilog_backend.cc:2083:dump_module$7  = 0;
+module spi(rst, cs_n, sck, mosi, addr, data, we, clk);
+  reg \$auto$verilog_backend.cc:2083:dump_module$8  = 0;
   wire \$1 ;
   wire \$10 ;
   wire [9:0] \$12 ;
   wire [9:0] \$13 ;
   wire \$15 ;
   wire \$17 ;
+  wire \$19 ;
+  wire [8:0] \$21 ;
+  wire [8:0] \$22 ;
+  wire \$24 ;
+  wire \$26 ;
+  wire \$28 ;
   wire \$3 ;
+  wire \$30 ;
   wire [3:0] \$5 ;
   wire [3:0] \$6 ;
   wire \$8 ;
+  output [7:0] addr;
+  reg [7:0] addr = 8'h00;
+  reg [7:0] \addr$next ;
   reg [2:0] bit_index = 3'h0;
   reg [2:0] \bit_index$next ;
   input clk;
@@ -226,12 +236,20 @@ module spi(rst, cs_n, sck, mosi, data, we, clk);
   wire we;
   assign \$10  = \$8  & sck_edge_out;
   assign \$13  = { data, 1'h0 } + mosi;
-  assign \$15  = bit_index == 3'h7;
-  assign \$17  = sck_edge_out & \$15 ;
+  assign \$15  = ~ cs_n;
+  assign \$17  = \$15  & sck_edge_out;
   assign \$1  = ~ cs_n;
+  assign \$19  = bit_index == 3'h7;
+  assign \$22  = addr + 1'h1;
+  assign \$24  = ~ cs_n;
+  assign \$26  = \$24  & sck_edge_out;
+  assign \$28  = bit_index == 3'h7;
+  assign \$30  = \$26  & \$28 ;
   assign \$3  = \$1  & sck_edge_out;
   assign \$6  = bit_index + 1'h1;
   assign \$8  = ~ cs_n;
+  always @(posedge clk)
+    addr <= \addr$next ;
   always @(posedge clk)
     data <= \data$next ;
   always @(posedge clk)
@@ -243,7 +261,7 @@ module spi(rst, cs_n, sck, mosi, data, we, clk);
     .rst(rst)
   );
   always @* begin
-    if (\$auto$verilog_backend.cc:2083:dump_module$7 ) begin end
+    if (\$auto$verilog_backend.cc:2083:dump_module$8 ) begin end
     \bit_index$next  = bit_index;
     casez (\$3 )
       /* src = "/home/bala/tt03-pov-display/src/pov_display.py:41" */
@@ -256,7 +274,7 @@ module spi(rst, cs_n, sck, mosi, data, we, clk);
     endcase
   end
   always @* begin
-    if (\$auto$verilog_backend.cc:2083:dump_module$7 ) begin end
+    if (\$auto$verilog_backend.cc:2083:dump_module$8 ) begin end
     \data$next  = data;
     casez (\$10 )
       /* src = "/home/bala/tt03-pov-display/src/pov_display.py:41" */
@@ -268,9 +286,27 @@ module spi(rst, cs_n, sck, mosi, data, we, clk);
           \data$next  = 8'h00;
     endcase
   end
+  always @* begin
+    if (\$auto$verilog_backend.cc:2083:dump_module$8 ) begin end
+    \addr$next  = addr;
+    casez (\$17 )
+      /* src = "/home/bala/tt03-pov-display/src/pov_display.py:41" */
+      1'h1:
+          casez (\$19 )
+            /* src = "/home/bala/tt03-pov-display/src/pov_display.py:46" */
+            1'h1:
+                \addr$next  = \$22 [7:0];
+          endcase
+    endcase
+    casez (rst)
+      1'h1:
+          \addr$next  = 8'h00;
+    endcase
+  end
   assign \$5  = \$6 ;
   assign \$12  = \$13 ;
-  assign we = \$17 ;
+  assign \$21  = \$22 ;
+  assign we = \$30 ;
   assign sck_edge_in = sck;
 endmodule
 

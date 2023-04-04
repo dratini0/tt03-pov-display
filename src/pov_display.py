@@ -43,7 +43,9 @@ class SPI(Elaboratable):
                 self.bit_index.eq(self.bit_index + 1),
                 self.data.eq(self.data.shift_left(1) + self.mosi)
             ]
-        m.d.comb += self.we.eq(self.sck_edge.out & (self.bit_index == 7))
+            with m.If(self.bit_index == 7):
+                m.d.sync += self.addr.eq(self.addr + 1)
+        m.d.comb += self.we.eq(cs & self.sck_edge.out & (self.bit_index == 7))
 
         return m
 
