@@ -91,7 +91,7 @@ class PovDisplay(Elaboratable):
         self.hall_in = Signal()
         self.leds = Signal(8)
 
-        self.mem = LoopMemory(width=8, depth=16)
+        self.mem = LoopMemory(width=8, depth=24)
         self.spi = SPI()
 
     def elaborate(self, platform):

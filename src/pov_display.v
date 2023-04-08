@@ -84,8 +84,8 @@ endmodule
 
 module mem(rst, in_, write, advance, out, clk);
   reg \$auto$verilog_backend.cc:2083:dump_module$1  = 0;
-  reg [127:0] _state = 128'h00000000000000000000000000000000;
-  reg [127:0] \_state$next ;
+  reg [191:0] _state = 192'h000000000000000000000000000000000000000000000000;
+  reg [191:0] \_state$next ;
   input advance;
   wire advance;
   input clk;
@@ -106,13 +106,13 @@ module mem(rst, in_, write, advance, out, clk);
     casez (advance)
       1'h1:
         begin
-          \_state$next [127:8] = _state[119:0];
+          \_state$next [191:8] = _state[183:0];
           (* full_case = 32'd1 *)
           casez (write)
             1'h1:
                 \_state$next [7:0] = in_;
             default:
-                \_state$next [7:0] = _state[127:120];
+                \_state$next [7:0] = _state[191:184];
           endcase
         end
     endcase
