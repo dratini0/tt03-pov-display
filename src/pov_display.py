@@ -61,6 +61,28 @@ class Controller(Elaboratable):
         return m
 
 
+class LoopMemory(Elaboratable):
+    def __init__(self, width, depth):
+        self.in_ = Signal(width)
+        self.out = Signal(width)
+        self.advance = Signal()
+        self.write = Signal()
+        self._state = [Signal(width, name=f"state_{i}") for i in range(depth)]
+
+    def elaborate(self, platform):
+        m = Module()
+        m.d.comb += self.out.eq(self._state[-1])
+        with m.If(self.advance):
+            for from_, to in zip(self._state, self._state[1:]):
+                m.d.sync += to.eq(from_)
+            with m.If(self.write):
+                m.d.sync += self._state[0].eq(self.in_)
+            with m.Else():
+                m.d.sync += self._state[0].eq(self._state[-1])
+
+        return m
+
+
 class PovDisplay(Elaboratable):
     def __init__(self):
         self.cs_n = Signal()
@@ -69,30 +91,24 @@ class PovDisplay(Elaboratable):
         self.hall_in = Signal()
         self.leds = Signal(8)
 
-        self.mem = Memory(width=8, depth=16, init=[])
+        self.mem = LoopMemory(width=8, depth=16)
         self.spi = SPI()
-        self.controller = Controller()
 
     def elaborate(self, platform):
         m = Module()
-        m.submodules.rdport = rdport = self.mem.read_port()
-        m.submodules.wrport = wrport = self.mem.write_port()
+        m.submodules.mem = self.mem
         m.submodules.spi = self.spi
-        m.submodules.controller = self.controller
 
         m.d.comb += [
             self.spi.cs_n.eq(self.cs_n),
             self.spi.sck.eq(self.sck),
             self.spi.mosi.eq(self.mosi),
 
-            self.controller.hall_in.eq(self.hall_in),
+            self.mem.in_.eq(self.spi.data),
+            self.mem.write.eq(self.spi.we),
+            self.mem.advance.eq(self.hall_in | self.spi.we),
+            self.leds.eq(self.mem.out),
 
-            rdport.addr.eq(self.controller.addr),
-            self.leds.eq(rdport.data),
-
-            wrport.addr.eq(self.spi.addr),
-            wrport.data.eq(self.spi.data),
-            wrport.en.eq(self.spi.we),
         ]
         return m
 
