@@ -67,18 +67,18 @@ class LoopMemory(Elaboratable):
         self.out = Signal(width)
         self.advance = Signal()
         self.write = Signal()
-        self._state = [Signal(width, name=f"state_{i}") for i in range(depth)]
+        self._state = Signal(width * depth)
+        self._width = width
 
     def elaborate(self, platform):
         m = Module()
-        m.d.comb += self.out.eq(self._state[-1])
+        m.d.comb += self.out.eq(self._state[:self._width])
         with m.If(self.advance):
-            for from_, to in zip(self._state, self._state[1:]):
-                m.d.sync += to.eq(from_)
+            m.d.sync += self._state[self._width:].eq(self._state[:-self._width])
             with m.If(self.write):
-                m.d.sync += self._state[0].eq(self.in_)
+                m.d.sync += self._state[:self._width].eq(self.in_)
             with m.Else():
-                m.d.sync += self._state[0].eq(self._state[-1])
+                m.d.sync += self._state[:self._width].eq(self._state[-self._width:])
 
         return m
 

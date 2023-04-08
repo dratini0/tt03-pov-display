@@ -84,6 +84,8 @@ endmodule
 
 module mem(rst, in_, write, advance, out, clk);
   reg \$auto$verilog_backend.cc:2083:dump_module$1  = 0;
+  reg [127:0] _state = 128'h00000000000000000000000000000000;
+  reg [127:0] \_state$next ;
   input advance;
   wire advance;
   input clk;
@@ -94,271 +96,32 @@ module mem(rst, in_, write, advance, out, clk);
   wire [7:0] out;
   input rst;
   wire rst;
-  reg [7:0] state_0 = 8'h00;
-  reg [7:0] \state_0$next ;
-  reg [7:0] state_1 = 8'h00;
-  reg [7:0] \state_1$next ;
-  reg [7:0] state_10 = 8'h00;
-  reg [7:0] \state_10$next ;
-  reg [7:0] state_11 = 8'h00;
-  reg [7:0] \state_11$next ;
-  reg [7:0] state_12 = 8'h00;
-  reg [7:0] \state_12$next ;
-  reg [7:0] state_13 = 8'h00;
-  reg [7:0] \state_13$next ;
-  reg [7:0] state_14 = 8'h00;
-  reg [7:0] \state_14$next ;
-  reg [7:0] state_15 = 8'h00;
-  reg [7:0] \state_15$next ;
-  reg [7:0] state_2 = 8'h00;
-  reg [7:0] \state_2$next ;
-  reg [7:0] state_3 = 8'h00;
-  reg [7:0] \state_3$next ;
-  reg [7:0] state_4 = 8'h00;
-  reg [7:0] \state_4$next ;
-  reg [7:0] state_5 = 8'h00;
-  reg [7:0] \state_5$next ;
-  reg [7:0] state_6 = 8'h00;
-  reg [7:0] \state_6$next ;
-  reg [7:0] state_7 = 8'h00;
-  reg [7:0] \state_7$next ;
-  reg [7:0] state_8 = 8'h00;
-  reg [7:0] \state_8$next ;
-  reg [7:0] state_9 = 8'h00;
-  reg [7:0] \state_9$next ;
   input write;
   wire write;
   always @(posedge clk)
-    state_1 <= \state_1$next ;
-  always @(posedge clk)
-    state_10 <= \state_10$next ;
-  always @(posedge clk)
-    state_11 <= \state_11$next ;
-  always @(posedge clk)
-    state_12 <= \state_12$next ;
-  always @(posedge clk)
-    state_13 <= \state_13$next ;
-  always @(posedge clk)
-    state_14 <= \state_14$next ;
-  always @(posedge clk)
-    state_15 <= \state_15$next ;
-  always @(posedge clk)
-    state_0 <= \state_0$next ;
-  always @(posedge clk)
-    state_2 <= \state_2$next ;
-  always @(posedge clk)
-    state_3 <= \state_3$next ;
-  always @(posedge clk)
-    state_4 <= \state_4$next ;
-  always @(posedge clk)
-    state_5 <= \state_5$next ;
-  always @(posedge clk)
-    state_6 <= \state_6$next ;
-  always @(posedge clk)
-    state_7 <= \state_7$next ;
-  always @(posedge clk)
-    state_8 <= \state_8$next ;
-  always @(posedge clk)
-    state_9 <= \state_9$next ;
+    _state <= \_state$next ;
   always @* begin
     if (\$auto$verilog_backend.cc:2083:dump_module$1 ) begin end
-    \state_1$next  = state_1;
+    \_state$next  = _state;
     casez (advance)
       1'h1:
-          \state_1$next  = state_0;
-    endcase
-    casez (rst)
-      1'h1:
-          \state_1$next  = 8'h00;
-    endcase
-  end
-  always @* begin
-    if (\$auto$verilog_backend.cc:2083:dump_module$1 ) begin end
-    \state_10$next  = state_10;
-    casez (advance)
-      1'h1:
-          \state_10$next  = state_9;
-    endcase
-    casez (rst)
-      1'h1:
-          \state_10$next  = 8'h00;
-    endcase
-  end
-  always @* begin
-    if (\$auto$verilog_backend.cc:2083:dump_module$1 ) begin end
-    \state_11$next  = state_11;
-    casez (advance)
-      1'h1:
-          \state_11$next  = state_10;
-    endcase
-    casez (rst)
-      1'h1:
-          \state_11$next  = 8'h00;
-    endcase
-  end
-  always @* begin
-    if (\$auto$verilog_backend.cc:2083:dump_module$1 ) begin end
-    \state_12$next  = state_12;
-    casez (advance)
-      1'h1:
-          \state_12$next  = state_11;
-    endcase
-    casez (rst)
-      1'h1:
-          \state_12$next  = 8'h00;
-    endcase
-  end
-  always @* begin
-    if (\$auto$verilog_backend.cc:2083:dump_module$1 ) begin end
-    \state_13$next  = state_13;
-    casez (advance)
-      1'h1:
-          \state_13$next  = state_12;
-    endcase
-    casez (rst)
-      1'h1:
-          \state_13$next  = 8'h00;
-    endcase
-  end
-  always @* begin
-    if (\$auto$verilog_backend.cc:2083:dump_module$1 ) begin end
-    \state_14$next  = state_14;
-    casez (advance)
-      1'h1:
-          \state_14$next  = state_13;
-    endcase
-    casez (rst)
-      1'h1:
-          \state_14$next  = 8'h00;
-    endcase
-  end
-  always @* begin
-    if (\$auto$verilog_backend.cc:2083:dump_module$1 ) begin end
-    \state_15$next  = state_15;
-    casez (advance)
-      1'h1:
-          \state_15$next  = state_14;
-    endcase
-    casez (rst)
-      1'h1:
-          \state_15$next  = 8'h00;
-    endcase
-  end
-  always @* begin
-    if (\$auto$verilog_backend.cc:2083:dump_module$1 ) begin end
-    \state_0$next  = state_0;
-    casez (advance)
-      1'h1:
+        begin
+          \_state$next [127:8] = _state[119:0];
           (* full_case = 32'd1 *)
           casez (write)
             1'h1:
-                \state_0$next  = in_;
+                \_state$next [7:0] = in_;
             default:
-                \state_0$next  = state_15;
+                \_state$next [7:0] = _state[127:120];
           endcase
+        end
     endcase
     casez (rst)
       1'h1:
-          \state_0$next  = 8'h00;
+          \_state$next  = 128'h00000000000000000000000000000000;
     endcase
   end
-  always @* begin
-    if (\$auto$verilog_backend.cc:2083:dump_module$1 ) begin end
-    \state_2$next  = state_2;
-    casez (advance)
-      1'h1:
-          \state_2$next  = state_1;
-    endcase
-    casez (rst)
-      1'h1:
-          \state_2$next  = 8'h00;
-    endcase
-  end
-  always @* begin
-    if (\$auto$verilog_backend.cc:2083:dump_module$1 ) begin end
-    \state_3$next  = state_3;
-    casez (advance)
-      1'h1:
-          \state_3$next  = state_2;
-    endcase
-    casez (rst)
-      1'h1:
-          \state_3$next  = 8'h00;
-    endcase
-  end
-  always @* begin
-    if (\$auto$verilog_backend.cc:2083:dump_module$1 ) begin end
-    \state_4$next  = state_4;
-    casez (advance)
-      1'h1:
-          \state_4$next  = state_3;
-    endcase
-    casez (rst)
-      1'h1:
-          \state_4$next  = 8'h00;
-    endcase
-  end
-  always @* begin
-    if (\$auto$verilog_backend.cc:2083:dump_module$1 ) begin end
-    \state_5$next  = state_5;
-    casez (advance)
-      1'h1:
-          \state_5$next  = state_4;
-    endcase
-    casez (rst)
-      1'h1:
-          \state_5$next  = 8'h00;
-    endcase
-  end
-  always @* begin
-    if (\$auto$verilog_backend.cc:2083:dump_module$1 ) begin end
-    \state_6$next  = state_6;
-    casez (advance)
-      1'h1:
-          \state_6$next  = state_5;
-    endcase
-    casez (rst)
-      1'h1:
-          \state_6$next  = 8'h00;
-    endcase
-  end
-  always @* begin
-    if (\$auto$verilog_backend.cc:2083:dump_module$1 ) begin end
-    \state_7$next  = state_7;
-    casez (advance)
-      1'h1:
-          \state_7$next  = state_6;
-    endcase
-    casez (rst)
-      1'h1:
-          \state_7$next  = 8'h00;
-    endcase
-  end
-  always @* begin
-    if (\$auto$verilog_backend.cc:2083:dump_module$1 ) begin end
-    \state_8$next  = state_8;
-    casez (advance)
-      1'h1:
-          \state_8$next  = state_7;
-    endcase
-    casez (rst)
-      1'h1:
-          \state_8$next  = 8'h00;
-    endcase
-  end
-  always @* begin
-    if (\$auto$verilog_backend.cc:2083:dump_module$1 ) begin end
-    \state_9$next  = state_9;
-    casez (advance)
-      1'h1:
-          \state_9$next  = state_8;
-    endcase
-    casez (rst)
-      1'h1:
-          \state_9$next  = 8'h00;
-    endcase
-  end
-  assign out = state_15;
+  assign out = _state[7:0];
 endmodule
 
 module sck_edge(rst, in_, out, clk);
