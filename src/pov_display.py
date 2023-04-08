@@ -67,7 +67,7 @@ class LoopMemory(Elaboratable):
         self.out = Signal(width)
         self.advance = Signal()
         self.write = Signal()
-        self._state = Signal(width * depth)
+        self._state = Signal(width * depth, reset_less=True)
         self._width = width
 
     def elaborate(self, platform):

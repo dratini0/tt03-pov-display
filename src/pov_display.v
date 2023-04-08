@@ -116,10 +116,6 @@ module mem(rst, in_, write, advance, out, clk);
           endcase
         end
     endcase
-    casez (rst)
-      1'h1:
-          \_state$next  = 128'h00000000000000000000000000000000;
-    endcase
   end
   assign out = _state[7:0];
 endmodule
