@@ -5,7 +5,7 @@ from amaranth_cocotb import run, get_current_module
 
 import cocotb
 from cocotb.clock import Clock
-from cocotb.triggers import RisingEdge, Timer
+from cocotb.triggers import RisingEdge
 from cocotb_test.simulator import Icarus
 
 from util import OneShot
