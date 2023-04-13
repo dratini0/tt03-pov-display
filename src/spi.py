@@ -12,7 +12,6 @@ class SPI(Elaboratable):
         self.sck = Signal()
         self.mosi = Signal()
 
-        self.addr = Signal(8)
         self.data = Signal(8)
         self.we = Signal()
 
@@ -33,9 +32,7 @@ class SPI(Elaboratable):
                 self._bit_index.eq(self._bit_index + 1),
                 self.data.eq(self.data.shift_left(1) + self.mosi),
             ]
-            with m.If(self._bit_index == 7):
-                m.d.sync += self.addr.eq(self.addr + 1)
-        m.d.comb += self.we.eq(cs & self._sck_edge.out & (self._bit_index == 7))
+        m.d.sync += self.we.eq(cs & self._sck_edge.out & (self._bit_index == 7))
 
         return m
 

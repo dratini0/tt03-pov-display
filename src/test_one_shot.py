@@ -4,17 +4,15 @@ from amaranth import *
 from amaranth_cocotb import run, get_current_module
 
 import cocotb
-from cocotb.clock import Clock
 from cocotb.triggers import RisingEdge
 from cocotb_test.simulator import Icarus
 
-from util import OneShot
+from util import cocotb_header, OneShot
 
 
 @cocotb.test()
 async def bench(dut):
-    dut.rst.value = 0
-    cocotb.start_soon(Clock(dut.clk, 80, units="us").start())
+    cocotb_header(dut)
     for _ in range(10):
         dut.in_.value = 0
         for _ in range(10):

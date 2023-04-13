@@ -158,20 +158,13 @@ module spi(rst, cs_n, sck, mosi, data, we, clk);
   wire \$15 ;
   wire \$17 ;
   wire \$19 ;
-  wire [8:0] \$21 ;
-  wire [8:0] \$22 ;
-  wire \$24 ;
-  wire \$26 ;
-  wire \$28 ;
+  wire \$21 ;
   wire \$3 ;
-  wire \$30 ;
   wire [3:0] \$5 ;
   wire [3:0] \$6 ;
   wire \$8 ;
   reg [2:0] _bit_index = 3'h0;
   reg [2:0] \_bit_index$next ;
-  reg [7:0] addr = 8'h00;
-  reg [7:0] \addr$next ;
   input clk;
   wire clk;
   input cs_n;
@@ -188,24 +181,21 @@ module spi(rst, cs_n, sck, mosi, data, we, clk);
   wire sck_edge_in_;
   wire sck_edge_out;
   output we;
-  wire we;
+  reg we = 1'h0;
+  reg \we$next ;
   assign \$10  = \$8  & sck_edge_out;
   assign \$13  = { data, 1'h0 } + mosi;
   assign \$15  = ~ cs_n;
   assign \$17  = \$15  & sck_edge_out;
   assign \$1  = ~ cs_n;
   assign \$19  = _bit_index == 3'h7;
-  assign \$22  = addr + 1'h1;
-  assign \$24  = ~ cs_n;
-  assign \$26  = \$24  & sck_edge_out;
-  assign \$28  = _bit_index == 3'h7;
-  assign \$30  = \$26  & \$28 ;
+  assign \$21  = \$17  & \$19 ;
   always @(posedge clk)
     _bit_index <= \_bit_index$next ;
   always @(posedge clk)
     data <= \data$next ;
   always @(posedge clk)
-    addr <= \addr$next ;
+    we <= \we$next ;
   assign \$3  = \$1  & sck_edge_out;
   assign \$6  = _bit_index + 1'h1;
   assign \$8  = ~ cs_n;
@@ -241,23 +231,14 @@ module spi(rst, cs_n, sck, mosi, data, we, clk);
   end
   always @* begin
     if (\$auto$verilog_backend.cc:2083:dump_module$3 ) begin end
-    \addr$next  = addr;
-    casez (\$17 )
-      1'h1:
-          casez (\$19 )
-            1'h1:
-                \addr$next  = \$22 [7:0];
-          endcase
-    endcase
+    \we$next  = \$21 ;
     casez (rst)
       1'h1:
-          \addr$next  = 8'h00;
+          \we$next  = 1'h0;
     endcase
   end
   assign \$5  = \$6 ;
   assign \$12  = \$13 ;
-  assign \$21  = \$22 ;
-  assign we = \$30 ;
   assign sck_edge_in_ = sck;
 endmodule
 

@@ -2,6 +2,9 @@
 from amaranth import *
 import amaranth.cli
 
+import cocotb
+from cocotb.clock import Clock
+
 
 class OneShot(Elaboratable):
     def __init__(self):
@@ -21,3 +24,8 @@ class OneShot(Elaboratable):
 
 def main(fragment):
     amaranth.cli.main(fragment, ports=fragment.get_ports())
+
+
+def cocotb_header(dut):
+    dut.rst.value = 0
+    cocotb.start_soon(Clock(dut.clk, 80, units="us").start())
