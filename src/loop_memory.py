@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 
 from amaranth import *
-from amaranth.cli import main
+
+from util import main
 
 
 class LoopMemory(Elaboratable):
@@ -25,15 +26,14 @@ class LoopMemory(Elaboratable):
 
         return m
 
+    def get_ports(self):
+        return [
+            self.in_,
+            self.out,
+            self.advance,
+            self.write,
+        ]
+
 
 if __name__ == "__main__":
-    loop_memory = LoopMemory(8, 24)
-    main(
-        loop_memory,
-        ports=[
-            loop_memory.in_,
-            loop_memory.out,
-            loop_memory.advance,
-            loop_memory.write,
-        ],
-    )
+    main(LoopMemory(8, 24))

@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 
 from amaranth import *
-from amaranth.cli import main
+
+from util import main
 
 
 class Controller(Elaboratable):
@@ -14,7 +15,9 @@ class Controller(Elaboratable):
         m.d.sync += self.addr.eq(self.addr + 1)
         return m
 
+    def get_ports(self):
+        return [self.hall_in, self.addr]
+
 
 if __name__ == "__main__":
-    controller = Controller()
-    main(controller, ports=[controller.hall_in, controller.addr])
+    main(Controller())

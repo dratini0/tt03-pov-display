@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from amaranth import *
+import amaranth.cli
 
 
 class OneShot(Elaboratable):
@@ -16,3 +17,7 @@ class OneShot(Elaboratable):
 
     def get_ports(self):
         return [self.in_, self.out]
+
+
+def main(fragment):
+    amaranth.cli.main(fragment, ports=fragment.get_ports())

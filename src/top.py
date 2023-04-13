@@ -42,13 +42,16 @@ class PovDisplayTop(Elaboratable):
 
         return m
 
+    def get_ports(self):
+        return [self.io_in, self.io_out]
+
 
 if __name__ == "__main__":
     top = PovDisplayTop()
     print(
         verilog.convert(
             top,
-            ports=[top.io_in, top.io_out],
+            ports=top.get_ports(),
             name="dratini0_pov_display_top",
             emit_src=False,
             strip_internal_attrs=True,
