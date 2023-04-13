@@ -13,3 +13,6 @@ class OneShot(Elaboratable):
         m.d.sync += self.last_in.eq(self.in_)
         m.d.comb += self.out.eq(self.in_ & ~self.last_in)
         return m
+
+    def get_ports(self):
+        return [self.in_, self.out]
