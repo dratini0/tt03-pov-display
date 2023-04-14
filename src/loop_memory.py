@@ -16,13 +16,13 @@ class LoopMemory(Elaboratable):
 
     def elaborate(self, platform):
         m = Module()
-        m.d.comb += self.out.eq(self._state[: self._width])
+        m.d.comb += self.out.eq(self._state[-self._width :])
         with m.If(self.advance):
             m.d.sync += self._state[self._width :].eq(self._state[: -self._width])
             with m.If(self.write):
                 m.d.sync += self._state[: self._width].eq(self.in_)
             with m.Else():
-                m.d.sync += self._state[: self._width].eq(self._state[-self._width :])
+                m.d.sync += self._state[: self._width].eq(self.out)
 
         return m
 

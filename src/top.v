@@ -133,12 +133,12 @@ module mem(rst, in_, write, advance, out, clk);
             1'h1:
                 \_state$next [7:0] = in_;
             default:
-                \_state$next [7:0] = _state[191:184];
+                \_state$next [7:0] = out;
           endcase
         end
     endcase
   end
-  assign out = _state[7:0];
+  assign out = _state[191:184];
 endmodule
 
 module sck_edge(rst, in_, out, clk);
