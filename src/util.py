@@ -4,6 +4,7 @@ import amaranth.cli
 
 import cocotb
 from cocotb.clock import Clock
+from cocotb.triggers import ClockCycles
 
 
 class OneShot(Elaboratable):
@@ -26,6 +27,9 @@ def main(fragment):
     amaranth.cli.main(fragment, ports=fragment.get_ports())
 
 
-def cocotb_header(dut):
-    dut.rst.value = 0
+async def cocotb_header(dut):
     cocotb.start_soon(Clock(dut.clk, 80, units="us").start())
+    dut.rst.value = 1
+    await ClockCycles(dut.clk, 5)
+    dut.rst.value = 0
+    await ClockCycles(dut.clk, 5)

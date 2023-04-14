@@ -21,14 +21,19 @@ async def collect_bus_data(dut, result: list[int]):
             result.append(int(dut.data.value))
 
 
-@cocotb.test()
-async def unstable_clock(dut):
-    cocotb_header(dut)
+async def cocotb_header_module(dut):
     dut.cs_n.value = 1
     dut.sck.value = 0
     dut.mosi.value = 0
     result = []
     cocotb.start_soon(collect_bus_data(dut, result))
+    await cocotb_header(dut)
+    return result
+
+
+@cocotb.test()
+async def unstable_clock(dut):
+    result = await cocotb_header_module(dut)
 
     await ClockCycles(dut.clk, 5)
     dut.cs_n.value = 0
@@ -107,12 +112,7 @@ def bytes_to_bitstream(data):
 
 @cocotb.test()
 async def lots_of_data(dut):
-    cocotb_header(dut)
-    dut.cs_n.value = 1
-    dut.sck.value = 0
-    dut.mosi.value = 0
-    result = []
-    cocotb.start_soon(collect_bus_data(dut, result))
+    result = await cocotb_header_module(dut)
 
     await send_bitstream(dut, bytes_to_bitstream(range(128)))
     await send_bitstream(dut, bytes_to_bitstream(range(128, 256)))
@@ -122,12 +122,7 @@ async def lots_of_data(dut):
 
 @cocotb.test()
 async def ignore_when_cs_high(dut):
-    cocotb_header(dut)
-    dut.cs_n.value = 1
-    dut.sck.value = 0
-    dut.mosi.value = 0
-    result = []
-    cocotb.start_soon(collect_bus_data(dut, result))
+    result = await cocotb_header_module(dut)
 
     await send_bitstream(dut, bytes_to_bitstream([0xF0]))
 
@@ -150,12 +145,7 @@ async def ignore_when_cs_high(dut):
 
 @cocotb.test()
 async def partial_byte_recovery(dut):
-    cocotb_header(dut)
-    dut.cs_n.value = 1
-    dut.sck.value = 0
-    dut.mosi.value = 0
-    result = []
-    cocotb.start_soon(collect_bus_data(dut, result))
+    result = await cocotb_header_module(dut)
 
     await send_bitstream(dut, [0, 0, 0, 0])
     await send_bitstream(dut, bytes_to_bitstream([0xF0]))

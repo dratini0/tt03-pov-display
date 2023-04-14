@@ -12,7 +12,7 @@ from util import cocotb_header, OneShot
 
 @cocotb.test()
 async def bench(dut):
-    cocotb_header(dut)
+    await cocotb_header(dut)
     for _ in range(10):
         dut.in_.value = 0
         for _ in range(10):
