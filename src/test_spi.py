@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+from itertools import chain
 
 from amaranth import *
 
@@ -79,6 +80,88 @@ async def unstable_clock(dut):
     await ClockCycles(dut.clk, 2)
 
     assert result == [0xAA]
+
+
+async def send_bitstream(dut, bitsream):
+    await RisingEdge(dut.clk)
+    dut.cs_n.value = 0
+    for bit in bitsream:
+        dut.sck.value = 0
+        dut.mosi.value = bit
+        await RisingEdge(dut.clk)
+        dut.sck.value = 1
+        await RisingEdge(dut.clk)
+    dut.cs_n.value = 1
+    dut.sck.value = 0
+    dut.mosi.value = 0
+    await RisingEdge(dut.clk)
+
+
+def bytes_to_bitstream(data):
+    return list(
+        chain.from_iterable(
+            [byte & (1 << bit) != 0 for bit in range(7, -1, -1)] for byte in data
+        )
+    )
+
+
+@cocotb.test()
+async def lots_of_data(dut):
+    cocotb_header(dut)
+    dut.cs_n.value = 1
+    dut.sck.value = 0
+    dut.mosi.value = 0
+    result = []
+    cocotb.start_soon(collect_bus_data(dut, result))
+
+    await send_bitstream(dut, bytes_to_bitstream(range(128)))
+    await send_bitstream(dut, bytes_to_bitstream(range(128, 256)))
+    await ClockCycles(dut.clk, 2)
+    assert result == list(range(256))
+
+
+@cocotb.test()
+async def ignore_when_cs_high(dut):
+    cocotb_header(dut)
+    dut.cs_n.value = 1
+    dut.sck.value = 0
+    dut.mosi.value = 0
+    result = []
+    cocotb.start_soon(collect_bus_data(dut, result))
+
+    await send_bitstream(dut, bytes_to_bitstream([0xF0]))
+
+    dut.sck.value = 1
+    await RisingEdge(dut.clk)
+    dut.sck.value = 0
+    dut.mosi.value = 1
+    await RisingEdge(dut.clk)
+    dut.sck.value = 1
+    await RisingEdge(dut.clk)
+    dut.sck.value = 0
+    dut.mosi.value = 1
+    await RisingEdge(dut.clk)
+
+    await send_bitstream(dut, bytes_to_bitstream([0xF0]))
+
+    await ClockCycles(dut.clk, 2)
+    assert result == [0xF0, 0xF0]
+
+
+@cocotb.test()
+async def partial_byte_recovery(dut):
+    cocotb_header(dut)
+    dut.cs_n.value = 1
+    dut.sck.value = 0
+    dut.mosi.value = 0
+    result = []
+    cocotb.start_soon(collect_bus_data(dut, result))
+
+    await send_bitstream(dut, [0, 0, 0, 0])
+    await send_bitstream(dut, bytes_to_bitstream([0xF0]))
+
+    await ClockCycles(dut.clk, 2)
+    assert result == [0xF0]
 
 
 def test_one_shot():
