@@ -7,9 +7,9 @@ from cocotb.clock import Clock
 
 
 class OneShot(Elaboratable):
-    def __init__(self):
+    def __init__(self, reset_less=True):
         self.in_ = Signal()
-        self.last_in = Signal()
+        self.last_in = Signal(reset_less=reset_less)
         self.out = Signal()
 
     def elaborate(self, platform):
