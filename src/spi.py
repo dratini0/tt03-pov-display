@@ -12,7 +12,7 @@ class SPI(Elaboratable):
         self.sck = Signal()
         self.mosi = Signal()
 
-        self.data = Signal(8)
+        self.data = Signal(8, reset_less=True)
         self.we = Signal()
 
         self._bit_index = Signal(3, reset_less=True)

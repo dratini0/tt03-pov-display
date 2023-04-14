@@ -247,10 +247,6 @@ module spi(rst, cs_n, sck, mosi, data, we, clk);
       1'h1:
           \data$next  = \$15 [7:0];
     endcase
-    casez (rst)
-      1'h1:
-          \data$next  = 8'h00;
-    endcase
   end
   always @* begin
     if (\$auto$verilog_backend.cc:2083:dump_module$2 ) begin end
