@@ -18,21 +18,28 @@ class PovDisplay(Elaboratable):
 
         self._mem = LoopMemory(width=8, depth=24)
         self._spi = SPI()
+        self._controller = Controller()
 
     def elaborate(self, platform):
         m = Module()
         m.submodules.mem = self._mem
         m.submodules.spi = self._spi
+        m.submodules.controller = self._controller
 
         m.d.comb += [
             self._spi.cs_n.eq(self.cs_n),
             self._spi.sck.eq(self.sck),
             self._spi.mosi.eq(self.mosi),
+            self._controller.hall_in.eq(self.hall_in),
+            self._controller.cs_n.eq(self.cs_n),
             self._mem.in_.eq(self._spi.data),
             self._mem.write.eq(self._spi.we),
-            self._mem.advance.eq(self.hall_in | self._spi.we),
-            self.leds.eq(self._mem.out),
+            self._mem.advance.eq(self._controller.advance | self._spi.we),
         ]
+
+        with m.If(self._controller.oe):
+            m.d.comb += self.leds.eq(self._mem.out)
+
         return m
 
     def get_ports(self):
