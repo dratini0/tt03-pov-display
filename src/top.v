@@ -2,15 +2,19 @@
 
 module _pulser(rst, hall_in, advance, clk);
   reg \$auto$verilog_backend.cc:2083:dump_module$1  = 0;
-  wire \$1 ;
-  wire [15:0] \$10 ;
-  wire [10:0] \$3 ;
-  wire [10:0] \$4 ;
+  wire [10:0] \$1 ;
+  wire [11:0] \$11 ;
+  wire [10:0] \$12 ;
+  wire [11:0] \$14 ;
+  wire [10:0] \$16 ;
+  wire [10:0] \$17 ;
+  wire \$3 ;
+  wire [10:0] \$5 ;
   wire [10:0] \$6 ;
-  wire [10:0] \$7 ;
-  wire [15:0] \$9 ;
-  reg [14:0] _comparison_signal = 15'h0000;
-  reg [14:0] \_comparison_signal$next ;
+  wire [10:0] \$8 ;
+  wire [10:0] \$9 ;
+  reg [9:0] _comparison_signal = 10'h000;
+  reg [9:0] \_comparison_signal$next ;
   reg [9:0] _counter = 10'h000;
   reg [9:0] \_counter$next ;
   reg [9:0] _last_total = 10'h000;
@@ -25,16 +29,19 @@ module _pulser(rst, hall_in, advance, clk);
   wire hall_in;
   input rst;
   wire rst;
-  assign \$10  = _comparison_signal + _last_total;
+  assign \$9  = _counter + 1'h1;
+  assign \$12  = _comparison_signal + 6'h20;
+  assign \$14  = \$12  - _last_total;
+  assign \$17  = _comparison_signal + 6'h20;
   always @(posedge clk)
     _counter <= \_counter$next ;
+  assign \$1  = _comparison_signal + 6'h20;
   always @(posedge clk)
     _last_total <= \_last_total$next ;
   always @(posedge clk)
     _comparison_signal <= \_comparison_signal$next ;
-  assign \$1  = _counter >= _comparison_signal[14:5];
-  assign \$4  = _counter + 1'h1;
-  assign \$7  = _counter + 1'h1;
+  assign \$3  = \$1  >= _last_total;
+  assign \$6  = _counter + 1'h1;
   hall_edge hall_edge (
     .clk(clk),
     .in_(hall_edge_in_),
@@ -48,7 +55,7 @@ module _pulser(rst, hall_in, advance, clk);
       1'h1:
           \_counter$next  = 10'h000;
       default:
-          \_counter$next  = \$4 [9:0];
+          \_counter$next  = \$6 [9:0];
     endcase
   end
   always @* begin
@@ -56,27 +63,30 @@ module _pulser(rst, hall_in, advance, clk);
     \_last_total$next  = _last_total;
     casez (hall_edge_out)
       1'h1:
-          \_last_total$next  = \$7 [9:0];
+          \_last_total$next  = \$9 [9:0];
     endcase
   end
   always @* begin
     if (\$auto$verilog_backend.cc:2083:dump_module$1 ) begin end
-    \_comparison_signal$next  = _comparison_signal;
     (* full_case = 32'd1 *)
     casez (hall_edge_out)
       1'h1:
-          \_comparison_signal$next  = 15'h0000;
+          \_comparison_signal$next  = 10'h000;
       default:
+          (* full_case = 32'd1 *)
           casez (advance)
             1'h1:
-                \_comparison_signal$next  = \$10 [14:0];
+                \_comparison_signal$next  = \$14 [9:0];
+            default:
+                \_comparison_signal$next  = \$17 [9:0];
           endcase
     endcase
   end
-  assign \$3  = \$4 ;
-  assign \$6  = \$7 ;
-  assign \$9  = \$10 ;
-  assign advance = \$1 ;
+  assign \$5  = \$6 ;
+  assign \$8  = \$9 ;
+  assign \$11  = \$14 ;
+  assign \$16  = \$17 ;
+  assign advance = \$3 ;
   assign hall_edge_in_ = hall_in;
 endmodule
 

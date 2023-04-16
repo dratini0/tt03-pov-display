@@ -17,7 +17,7 @@ class Pulser(Elaboratable):
         self._hall_edge = OneShot()
         self._counter = Signal(counter_width, reset_less=True)
         self._last_total = Signal(counter_width, reset_less=True)
-        self._comparison_signal = Signal(counter_width + shift, reset_less=True)
+        self._comparison_signal = Signal(counter_width, reset_less=True)
 
     def elaborate(self, platform):
         m = Module()
@@ -25,7 +25,7 @@ class Pulser(Elaboratable):
         m.d.comb += self._hall_edge.in_.eq(self.hall_in)
 
         m.d.comb += self.advance.eq(
-            self._counter >= self._comparison_signal[self._shift :]
+            self._comparison_signal + (1 << self._shift) >= self._last_total
         )
         with m.If(self._hall_edge.out):
             m.d.sync += [
@@ -37,7 +37,11 @@ class Pulser(Elaboratable):
             m.d.sync += self._counter.eq(self._counter + 1)
             with m.If(self.advance):
                 m.d.sync += self._comparison_signal.eq(
-                    self._comparison_signal + self._last_total
+                    self._comparison_signal + (1 << self._shift) - self._last_total
+                )
+            with m.Else():
+                m.d.sync += self._comparison_signal.eq(
+                    self._comparison_signal + (1 << self._shift)
                 )
 
         return m
