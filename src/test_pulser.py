@@ -31,13 +31,13 @@ async def bench(dut):
     await cocotb_header(dut)
     counter = [0]
     cocotb.start_soon(counter_coro(dut, dut.advance, counter))
-    for divider in [50, 100, 500, 1000]:
+    for divider in range(50, 1000, 37):
         divided_clock_task = cocotb.start_soon(divided_clock(dut, divider))
         await ClockCycles(dut.hall_in, 3)
         old_counter = counter[0]
         await RisingEdge(dut.hall_in)
         new_counter = counter[0]
-        assert new_counter - old_counter == 32
+        assert 32 <= new_counter - old_counter <= 35
         divided_clock_task.cancel()
 
 

@@ -2,23 +2,24 @@
 
 module _pulser(rst, hall_in, advance, clk);
   reg \$auto$verilog_backend.cc:2083:dump_module$1  = 0;
-  wire [10:0] \$1 ;
-  wire [11:0] \$11 ;
-  wire [10:0] \$12 ;
-  wire [11:0] \$14 ;
-  wire [10:0] \$16 ;
-  wire [10:0] \$17 ;
+  wire [8:0] \$1 ;
+  wire [10:0] \$11 ;
+  wire [9:0] \$13 ;
+  wire [8:0] \$14 ;
+  wire [9:0] \$16 ;
+  wire [8:0] \$18 ;
+  wire [8:0] \$19 ;
   wire \$3 ;
   wire [10:0] \$5 ;
   wire [10:0] \$6 ;
   wire [10:0] \$8 ;
   wire [10:0] \$9 ;
-  reg [9:0] _comparison_signal = 10'h000;
-  reg [9:0] \_comparison_signal$next ;
+  reg [7:0] _comparison_signal = 8'h00;
+  reg [7:0] \_comparison_signal$next ;
   reg [9:0] _counter = 10'h000;
   reg [9:0] \_counter$next ;
-  reg [9:0] _last_total = 10'h000;
-  reg [9:0] \_last_total$next ;
+  reg [7:0] _last_total = 8'h00;
+  reg [7:0] \_last_total$next ;
   output advance;
   wire advance;
   input clk;
@@ -30,12 +31,12 @@ module _pulser(rst, hall_in, advance, clk);
   input rst;
   wire rst;
   assign \$9  = _counter + 1'h1;
-  assign \$12  = _comparison_signal + 6'h20;
-  assign \$14  = \$12  - _last_total;
-  assign \$17  = _comparison_signal + 6'h20;
+  assign \$14  = _comparison_signal + 4'h8;
+  assign \$16  = \$14  - _last_total;
+  assign \$1  = _comparison_signal + 4'h8;
+  assign \$19  = _comparison_signal + 4'h8;
   always @(posedge clk)
     _counter <= \_counter$next ;
-  assign \$1  = _comparison_signal + 6'h20;
   always @(posedge clk)
     _last_total <= \_last_total$next ;
   always @(posedge clk)
@@ -63,7 +64,7 @@ module _pulser(rst, hall_in, advance, clk);
     \_last_total$next  = _last_total;
     casez (hall_edge_out)
       1'h1:
-          \_last_total$next  = \$9 [9:0];
+          \_last_total$next  = \$11 [7:0];
     endcase
   end
   always @* begin
@@ -71,23 +72,24 @@ module _pulser(rst, hall_in, advance, clk);
     (* full_case = 32'd1 *)
     casez (hall_edge_out)
       1'h1:
-          \_comparison_signal$next  = 10'h000;
+          \_comparison_signal$next  = 8'h00;
       default:
           (* full_case = 32'd1 *)
           casez (advance)
             1'h1:
-                \_comparison_signal$next  = \$14 [9:0];
+                \_comparison_signal$next  = \$16 [7:0];
             default:
-                \_comparison_signal$next  = \$17 [9:0];
+                \_comparison_signal$next  = \$19 [7:0];
           endcase
     endcase
   end
   assign \$5  = \$6 ;
-  assign \$8  = \$9 ;
-  assign \$11  = \$14 ;
-  assign \$16  = \$17 ;
+  assign \$8  = \$11 ;
+  assign \$13  = \$16 ;
+  assign \$18  = \$19 ;
   assign advance = \$3 ;
   assign hall_edge_in_ = hall_in;
+  assign \$11  = { 2'h0, \$9 [10:2] };
 endmodule
 
 module controller(rst, hall_in, advance, clk);
