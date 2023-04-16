@@ -9,16 +9,16 @@ from util import main
 
 
 class PovDisplay(Elaboratable):
-    def __init__(self):
+    def __init__(self, width, depth):
         self.cs_n = Signal()
         self.sck = Signal()
         self.mosi = Signal()
         self.hall_in = Signal()
-        self.leds = Signal(8)
+        self.leds = Signal(width)
 
-        self._mem = LoopMemory(width=8, depth=24)
+        self._mem = LoopMemory(width=width, depth=depth)
         self._spi = SPI()
-        self._controller = Controller()
+        self._controller = Controller(depth=depth)
 
     def elaborate(self, platform):
         m = Module()

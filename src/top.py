@@ -12,7 +12,7 @@ class PovDisplayTop(Elaboratable):
     def __init__(self):
         self.io_in = Signal(8)
         self.io_out = Signal(8)
-        self.display = PovDisplay()
+        self.display = PovDisplay(width=8, depth=24)
 
     def elaborate(self, platform):
         m = Module()

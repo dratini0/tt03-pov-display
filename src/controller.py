@@ -7,14 +7,14 @@ from util import main
 
 
 class Controller(Elaboratable):
-    def __init__(self):
+    def __init__(self, depth):
         self.hall_in = Signal()
         self.cs_n = Signal()
 
         self.advance = Signal()
         self.oe = Const(1)
 
-        self._pulser = Pulser()
+        self._pulser = Pulser(divisor=depth.bit_length())
 
     def elaborate(self, platform):
         m = Module()
@@ -32,4 +32,4 @@ class Controller(Elaboratable):
 
 
 if __name__ == "__main__":
-    main(Controller())
+    main(Controller(24))
