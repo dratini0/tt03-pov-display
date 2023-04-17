@@ -63,4 +63,4 @@ class Controller(Elaboratable):
 
 
 if __name__ == "__main__":
-    main(Controller(24))
+    main(Controller(32))

@@ -1,15 +1,15 @@
 [*]
 [*] GTKWave Analyzer v3.3.114 (w)1999-2023 BSI
-[*] Mon Apr 17 00:59:49 2023
+[*] Mon Apr 17 20:51:15 2023
 [*]
 [dumpfile] "/home/bala/tt03-pov-display/test_loop_memory.vcd"
-[dumpfile_mtime] "Mon Apr 17 00:49:10 2023"
-[dumpfile_size] 28865
+[dumpfile_mtime] "Mon Apr 17 20:43:18 2023"
+[dumpfile_size] 48265
 [savefile] "/home/bala/tt03-pov-display/test_loop_memory.gtkw"
-[timestart] 6548000000
+[timestart] 3338000000
 [size] 1920 1013
 [pos] -1 -1
-*-27.600000 7198000000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-29.700001 7198000000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [sst_width] 254
 [signals_width] 134
 [sst_expanded] 1
@@ -21,9 +21,8 @@ top.advance
 top.write
 @22
 top.in_[7:0]
-@23
 top.out[7:0]
-@22
-top._state[191:0]
+@23
+top._state[255:0]
 [pattern_trace] 1
 [pattern_trace] 0

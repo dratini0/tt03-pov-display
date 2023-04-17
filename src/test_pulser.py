@@ -17,11 +17,11 @@ ROUNDING = 0
 @cocotb.test()
 async def bench(dut):
     dut.hall_in.value = 0
-    dut.divisor.value = 32
+    dut.divisor.value = 48
     await cocotb_header(dut)
     counter = [0]
     cocotb.start_soon(counter_coro(dut, dut.advance, counter))
-    for divisor in [32, 48, 64, 96]:
+    for divisor in [48, 64, 96, 128]:
         dut.divisor.value = divisor
         for period in range(50, 1000, 37):
             if period < divisor + 10:

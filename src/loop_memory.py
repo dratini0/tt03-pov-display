@@ -36,4 +36,4 @@ class LoopMemory(Elaboratable):
 
 
 if __name__ == "__main__":
-    main(LoopMemory(8, 24))
+    main(LoopMemory(8, 32))

@@ -17,8 +17,8 @@ async def bench(dut):
     dut.advance.value = 0
     await cocotb_header(dut)
 
-    data = list(range(0xA0, 0xB8))
-    assert len(data) == 24
+    data = list(range(0xA0, 0xC0))
+    assert len(data) == 32
 
     # Fill it with data in two parts
     dut.write.value = 1
@@ -44,7 +44,7 @@ async def bench(dut):
     # Read the whole thing back, twice over, in two parts again
     readback1 = []
     dut.advance.value = 1
-    for _ in range(40):
+    for _ in range(56):
         await RisingEdge(dut.clk)
         readback1.append(int(dut.out.value))
     dut.advance.value = 0
@@ -63,7 +63,7 @@ async def bench(dut):
 
 
 def test_loop_memory():
-    loop_memory = LoopMemory(8, 24)
+    loop_memory = LoopMemory(8, 32)
     run(
         loop_memory,
         get_current_module(),
