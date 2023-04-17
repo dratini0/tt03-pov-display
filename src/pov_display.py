@@ -42,13 +42,13 @@ class PovDisplay(Elaboratable):
 
         with m.Switch(self.divisor):
             with m.Case(0):
-                m.d.comb += self._controller.divisor.eq(32)
-            with m.Case(1):
                 m.d.comb += self._controller.divisor.eq(48)
-            with m.Case(2):
+            with m.Case(1):
                 m.d.comb += self._controller.divisor.eq(64)
-            with m.Case(3):
+            with m.Case(2):
                 m.d.comb += self._controller.divisor.eq(96)
+            with m.Case(3):
+                m.d.comb += self._controller.divisor.eq(128)
 
         with m.If(self._controller.oe):
             m.d.comb += self.leds.eq(self._mem.out)

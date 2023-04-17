@@ -104,14 +104,14 @@ module controller(rst, hall_in, cs_n, advance, divisor, oe, clk);
   reg \$auto$verilog_backend.cc:2083:dump_module$2  = 0;
   wire \$1 ;
   wire \$11 ;
-  wire [5:0] \$13 ;
-  wire [5:0] \$14 ;
+  wire [6:0] \$13 ;
+  wire [6:0] \$14 ;
   wire \$3 ;
   wire \$5 ;
   wire \$7 ;
   wire \$9 ;
-  reg [4:0] _count = 5'h00;
-  reg [4:0] \_count$next ;
+  reg [5:0] _count = 6'h00;
+  reg [5:0] \_count$next ;
   wire _pulser_advance;
   wire [9:0] _pulser_divisor;
   wire _pulser_hall_in;
@@ -133,7 +133,7 @@ module controller(rst, hall_in, cs_n, advance, divisor, oe, clk);
   wire oe;
   input rst;
   wire rst;
-  assign \$9  = _count >= 5'h18;
+  assign \$9  = _count >= 6'h20;
   assign \$11  = oe & _pulser_advance;
   assign \$14  = _count + 1'h1;
   always @(posedge clk)
@@ -142,7 +142,7 @@ module controller(rst, hall_in, cs_n, advance, divisor, oe, clk);
     _count <= \_count$next ;
   assign \$1  = _pulser_advance & oe;
   assign \$3  = cs_n & _state;
-  assign \$5  = _count < 5'h18;
+  assign \$5  = _count < 6'h20;
   assign \$7  = \$3  & \$5 ;
   _pulser _pulser (
     .advance(_pulser_advance),
@@ -181,15 +181,15 @@ module controller(rst, hall_in, cs_n, advance, divisor, oe, clk);
             1'h1:
                 casez (\$9 )
                   1'h1:
-                      \_count$next  = 5'h00;
+                      \_count$next  = 6'h00;
                 endcase
           endcase
       default:
-          \_count$next  = 5'h18;
+          \_count$next  = 6'h20;
     endcase
     casez (\$11 )
       1'h1:
-          \_count$next  = \$14 [4:0];
+          \_count$next  = \$14 [5:0];
     endcase
   end
   assign \$13  = \$14 ;
@@ -269,13 +269,13 @@ module display(rst, cs_n, sck, mosi, hall_in, hall_invert, divisor, leds, clk);
     (* full_case = 32'd1 *)
     casez (divisor)
       2'h0:
-          controller_divisor = 10'h020;
-      2'h1:
           controller_divisor = 10'h030;
-      2'h2:
+      2'h1:
           controller_divisor = 10'h040;
-      2'h3:
+      2'h2:
           controller_divisor = 10'h060;
+      2'h3:
+          controller_divisor = 10'h080;
     endcase
   end
   always @* begin
@@ -378,8 +378,8 @@ endmodule
 
 module mem(rst, in_, write, advance, out, clk);
   reg \$auto$verilog_backend.cc:2083:dump_module$4  = 0;
-  reg [191:0] _state = 192'h000000000000000000000000000000000000000000000000;
-  reg [191:0] \_state$next ;
+  reg [255:0] _state = 256'h0000000000000000000000000000000000000000000000000000000000000000;
+  reg [255:0] \_state$next ;
   input advance;
   wire advance;
   input clk;
@@ -400,7 +400,7 @@ module mem(rst, in_, write, advance, out, clk);
     casez (advance)
       1'h1:
         begin
-          \_state$next [191:8] = _state[183:0];
+          \_state$next [255:8] = _state[247:0];
           (* full_case = 32'd1 *)
           casez (write)
             1'h1:
@@ -411,7 +411,7 @@ module mem(rst, in_, write, advance, out, clk);
         end
     endcase
   end
-  assign out = _state[191:184];
+  assign out = _state[255:248];
 endmodule
 
 module sck_edge(rst, in_, out, clk);
