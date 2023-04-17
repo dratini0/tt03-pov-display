@@ -200,27 +200,6 @@ module controller(rst, hall_in, cs_n, divisor, advance, oe, clk);
   assign _pulser_hall_in = hall_in;
 endmodule
 
-module cs_edge(rst, in_, out, clk);
-  wire \$1 ;
-  wire \$3 ;
-  input clk;
-  wire clk;
-  input in_;
-  wire in_;
-  reg last_in = 1'h0;
-  wire \last_in$next ;
-  output out;
-  wire out;
-  input rst;
-  wire rst;
-  assign \$1  = ~ last_in;
-  assign \$3  = in_ & \$1 ;
-  always @(posedge clk)
-    last_in <= \last_in$next ;
-  assign out = \$3 ;
-  assign \last_in$next  = in_;
-endmodule
-
 module display(rst, cs_n, sck, mosi, hall_in, divisor, leds, clk);
   reg \$auto$verilog_backend.cc:2083:dump_module$3  = 0;
   wire [2:0] \$1 ;
@@ -443,24 +422,23 @@ endmodule
 module spi(rst, cs_n, sck, mosi, data, we, clk);
   reg \$auto$verilog_backend.cc:2083:dump_module$5  = 0;
   wire \$1 ;
-  wire \$10 ;
   wire \$12 ;
-  wire [9:0] \$14 ;
-  wire [9:0] \$15 ;
-  wire \$17 ;
+  wire \$14 ;
+  wire [9:0] \$16 ;
+  wire [9:0] \$17 ;
   wire \$19 ;
   wire \$21 ;
   wire \$23 ;
+  wire \$25 ;
   wire \$3 ;
-  wire \$5 ;
-  wire [3:0] \$7 ;
-  wire [3:0] \$8 ;
+  wire [3:0] \$5 ;
+  wire [3:0] \$6 ;
+  wire \$8 ;
+  wire \$9 ;
   reg [2:0] _bit_index = 3'h0;
   reg [2:0] \_bit_index$next ;
   input clk;
   wire clk;
-  wire cs_edge_in_;
-  wire cs_edge_out;
   input cs_n;
   wire cs_n;
   output [7:0] data;
@@ -476,30 +454,24 @@ module spi(rst, cs_n, sck, mosi, data, we, clk);
   wire sck_edge_out;
   output we;
   reg we = 1'h0;
-  reg \we$next ;
-  assign \$10  = ~ cs_n;
-  assign \$12  = \$10  & sck_edge_out;
-  assign \$15  = { data, 1'h0 } + mosi;
-  assign \$17  = ~ cs_n;
+  wire \we$next ;
+  assign \$9  = ~ cs_n;
+  assign \$12  = ~ cs_n;
+  assign \$14  = \$12  & sck_edge_out;
+  assign \$17  = { data, 1'h0 } + mosi;
   assign \$1  = ~ cs_n;
-  assign \$19  = \$17  & sck_edge_out;
-  assign \$21  = _bit_index == 3'h7;
-  assign \$23  = \$19  & \$21 ;
+  assign \$19  = ~ cs_n;
+  assign \$21  = \$19  & sck_edge_out;
+  assign \$23  = _bit_index == 3'h7;
+  assign \$25  = \$21  & \$23 ;
   always @(posedge clk)
     _bit_index <= \_bit_index$next ;
   always @(posedge clk)
     data <= \data$next ;
   always @(posedge clk)
     we <= \we$next ;
-  assign \$3  = ~ cs_n;
-  assign \$5  = \$3  & sck_edge_out;
-  assign \$8  = _bit_index + 1'h1;
-  cs_edge cs_edge (
-    .clk(clk),
-    .in_(cs_edge_in_),
-    .out(cs_edge_out),
-    .rst(rst)
-  );
+  assign \$3  = \$1  & sck_edge_out;
+  assign \$6  = _bit_index + 1'h1;
   sck_edge sck_edge (
     .clk(clk),
     .in_(sck_edge_in_),
@@ -509,11 +481,11 @@ module spi(rst, cs_n, sck, mosi, data, we, clk);
   always @* begin
     if (\$auto$verilog_backend.cc:2083:dump_module$5 ) begin end
     \_bit_index$next  = _bit_index;
-    casez (\$5 )
+    casez (\$3 )
       1'h1:
-          \_bit_index$next  = \$8 [2:0];
+          \_bit_index$next  = \$6 [2:0];
     endcase
-    casez (cs_edge_out)
+    casez (\$8 )
       1'h1:
           \_bit_index$next  = 3'h0;
     endcase
@@ -521,22 +493,15 @@ module spi(rst, cs_n, sck, mosi, data, we, clk);
   always @* begin
     if (\$auto$verilog_backend.cc:2083:dump_module$5 ) begin end
     \data$next  = data;
-    casez (\$12 )
+    casez (\$14 )
       1'h1:
-          \data$next  = \$15 [7:0];
+          \data$next  = \$17 [7:0];
     endcase
   end
-  always @* begin
-    if (\$auto$verilog_backend.cc:2083:dump_module$5 ) begin end
-    \we$next  = \$23 ;
-    casez (rst)
-      1'h1:
-          \we$next  = 1'h0;
-    endcase
-  end
-  assign \$7  = \$8 ;
-  assign \$14  = \$15 ;
-  assign cs_edge_in_ = \$1 ;
+  assign \$5  = \$6 ;
+  assign \$16  = \$17 ;
+  assign \we$next  = \$25 ;
   assign sck_edge_in_ = sck;
+  assign \$8  = cs_n;
 endmodule
 

@@ -13,12 +13,11 @@ class SPI(Elaboratable):
         self.mosi = Signal()
 
         self.data = Signal(8, reset_less=True)
-        self.we = Signal()
+        self.we = Signal(reset_less=True)
 
         self._bit_index = Signal(3, reset_less=True)
 
         self._sck_edge = OneShot()
-        self._cs_edge = OneShot()
 
     def elaborate(self, platform):
         cs = ~self.cs_n
@@ -28,9 +27,6 @@ class SPI(Elaboratable):
         m.submodules.sck_edge = self._sck_edge
         m.d.comb += self._sck_edge.in_.eq(self.sck)
 
-        m.submodules.cs_edge = self._cs_edge
-        m.d.comb += self._cs_edge.in_.eq(cs)
-
         with m.If(cs & self._sck_edge.out):
             m.d.sync += [
                 self._bit_index.eq(self._bit_index + 1),
@@ -38,7 +34,7 @@ class SPI(Elaboratable):
             ]
         m.d.sync += self.we.eq(cs & self._sck_edge.out & (self._bit_index == 7))
 
-        with m.If(self._cs_edge.out):
+        with m.If(~cs):
             m.d.sync += self._bit_index.eq(0)
 
         return m
