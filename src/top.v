@@ -203,11 +203,7 @@ endmodule
 module display(rst, cs_n, sck, mosi, hall_in, hall_invert, divisor, leds, clk);
   reg \$auto$verilog_backend.cc:2083:dump_module$3  = 0;
   wire \$1 ;
-  wire \$11 ;
   wire \$3 ;
-  wire \$5 ;
-  wire \$7 ;
-  wire \$9 ;
   input clk;
   wire clk;
   wire controller_advance;
@@ -240,12 +236,8 @@ module display(rst, cs_n, sck, mosi, hall_in, hall_invert, divisor, leds, clk);
   wire spi_mosi;
   wire spi_sck;
   wire spi_we;
-  assign \$9  = divisor == 2'h2;
-  assign \$11  = divisor == 2'h3;
   assign \$1  = hall_in ^ hall_invert;
   assign \$3  = controller_advance | spi_we;
-  assign \$5  = ! divisor;
-  assign \$7  = divisor == 1'h1;
   controller controller (
     .advance(controller_advance),
     .clk(clk),
@@ -274,15 +266,15 @@ module display(rst, cs_n, sck, mosi, hall_in, hall_invert, divisor, leds, clk);
   );
   always @* begin
     if (\$auto$verilog_backend.cc:2083:dump_module$3 ) begin end
-    controller_divisor = 10'h000;
-    casez ({ \$11 , \$9 , \$7 , \$5  })
-      4'b???1:
+    (* full_case = 32'd1 *)
+    casez (divisor)
+      2'h0:
           controller_divisor = 10'h020;
-      4'b??1?:
+      2'h1:
           controller_divisor = 10'h030;
-      4'b?1??:
+      2'h2:
           controller_divisor = 10'h040;
-      4'b1???:
+      2'h3:
           controller_divisor = 10'h060;
     endcase
   end
