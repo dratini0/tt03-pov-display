@@ -38,9 +38,9 @@ async def cocotb_header(dut):
 async def divided_clock(dut, factor):
     while True:
         dut.hall_in.value = 1
-        await RisingEdge(dut.clk)
+        await ClockCycles(dut.clk, factor // 2)
         dut.hall_in.value = 0
-        await ClockCycles(dut.clk, factor - 1)
+        await ClockCycles(dut.clk, factor - factor // 2)
 
 
 async def counter_coro(dut, signal, counter):

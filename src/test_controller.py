@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+from random import randint
+
 from amaranth import *
 
 from amaranth_cocotb import run, get_current_module
@@ -12,19 +14,51 @@ from util import cocotb_header, counter_coro, divided_clock
 
 
 @cocotb.test()
-async def bench(dut):
+async def stable_clock(dut):
     dut.hall_in.value = 0
     dut.cs_n.value = 1
     await cocotb_header(dut)
     counter = [0]
     cocotb.start_soon(counter_coro(dut, dut.advance, counter))
+    dut.cs_n.value = 0
+    divided_clock_task = cocotb.start_soon(divided_clock(dut, 50))
+    await ClockCycles(dut.hall_in, 10)
+    divided_clock_task.cancel()
+    await ClockCycles(dut.clk, 25)
+    dut.hall_in = 0
+    dut.cs_n = 1
+    await ClockCycles(dut.clk, 25)
+    assert counter[0] == 0
+
     for divider in range(50, 1000, 37):
         divided_clock_task = cocotb.start_soon(divided_clock(dut, divider))
         await ClockCycles(dut.hall_in, 3)
-        old_counter = counter[0]
-        await RisingEdge(dut.hall_in)
-        new_counter = counter[0]
-        # assert 32 <= new_counter - old_counter <= 35
+        assert counter[0] % 24 == 0
+        divided_clock_task.cancel()
+
+
+@cocotb.test()
+async def unstable_clock(dut):
+    dut.hall_in.value = 0
+    dut.cs_n.value = 1
+    await cocotb_header(dut)
+    counter = [0]
+    cocotb.start_soon(counter_coro(dut, dut.advance, counter))
+    dut.cs_n.value = 0
+    await ClockCycles(dut.clk, 25)
+    dut.cs_n.value = 1
+    await ClockCycles(dut.clk, 25)
+    assert counter[0] == 0
+
+    for _ in range(10):
+        for _ in range(50):
+            dut.hall_in.value = 1
+            await ClockCycles(dut.clk, randint(50, 500))
+            dut.hall_in.value = 0
+            await ClockCycles(dut.clk, randint(50, 500))
+        divided_clock_task = cocotb.start_soon(divided_clock(dut, 100))
+        await ClockCycles(dut.hall_in, 3)
+        assert counter[0] % 24 == 0
         divided_clock_task.cancel()
 
 

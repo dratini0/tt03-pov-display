@@ -1,0 +1,33 @@
+[*]
+[*] GTKWave Analyzer v3.3.114 (w)1999-2023 BSI
+[*] Mon Apr 17 01:43:11 2023
+[*]
+[dumpfile] "/home/bala/tt03-pov-display/test_controller.vcd"
+[dumpfile_mtime] "Mon Apr 17 01:39:44 2023"
+[dumpfile_size] 62274685
+[savefile] "/home/bala/tt03-pov-display/test_controller.gtkw"
+[timestart] 0
+[size] 1920 1013
+[pos] -1 -1
+*-41.700001 11630000000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] top.
+[sst_width] 254
+[signals_width] 150
+[sst_expanded] 1
+[sst_vpaned_height] 321
+@28
+top.clk
+top.rst
+top.hall_in
+@24
+top.cs_n
+@28
+top._pulser_advance
+top._state
+@25
+top._count[4:0]
+@28
+top.oe
+top.advance
+[pattern_trace] 1
+[pattern_trace] 0
