@@ -17,12 +17,12 @@ module _pulser(rst, hall_in, divisor, advance, clk);
   wire \$5 ;
   wire [10:0] \$7 ;
   wire [10:0] \$8 ;
-  reg [7:0] _comparison_signal = 8'h00;
-  reg [7:0] \_comparison_signal$next ;
+  reg [9:0] _comparison_signal = 10'h000;
+  reg [9:0] \_comparison_signal$next ;
   reg [9:0] _counter = 10'h000;
   reg [9:0] \_counter$next ;
-  reg [7:0] _last_total = 8'h00;
-  reg [7:0] \_last_total$next ;
+  reg [9:0] _last_total = 10'h000;
+  reg [9:0] \_last_total$next ;
   output advance;
   wire advance;
   input clk;
@@ -69,7 +69,7 @@ module _pulser(rst, hall_in, divisor, advance, clk);
     \_last_total$next  = _last_total;
     casez (hall_edge_out)
       1'h1:
-          \_last_total$next  = \$13 [7:0];
+          \_last_total$next  = \$13 [9:0];
     endcase
   end
   always @* begin
@@ -77,14 +77,14 @@ module _pulser(rst, hall_in, divisor, advance, clk);
     (* full_case = 32'd1 *)
     casez (hall_edge_out)
       1'h1:
-          \_comparison_signal$next  = 8'h00;
+          \_comparison_signal$next  = 10'h000;
       default:
           (* full_case = 32'd1 *)
           casez (advance)
             1'h1:
-                \_comparison_signal$next  = \$20 [7:0];
+                \_comparison_signal$next  = \$20 [9:0];
             default:
-                \_comparison_signal$next  = \$25 [7:0];
+                \_comparison_signal$next  = \$25 [9:0];
           endcase
     endcase
   end
@@ -94,10 +94,10 @@ module _pulser(rst, hall_in, divisor, advance, clk);
   assign \$22  = \$25 ;
   assign advance = \$5 ;
   assign hall_edge_in_ = hall_in;
-  assign \$1  = { 2'h0, divisor[9:2] };
-  assign \$13  = { 2'h0, \$11 [10:2] };
-  assign \$16  = { 2'h0, divisor[9:2] };
-  assign \$23  = { 2'h0, divisor[9:2] };
+  assign \$1  = divisor;
+  assign \$13  = \$11 ;
+  assign \$16  = divisor;
+  assign \$23  = divisor;
 endmodule
 
 module controller(rst, hall_in, cs_n, advance, divisor, oe, clk);

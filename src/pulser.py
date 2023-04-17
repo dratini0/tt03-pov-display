@@ -8,7 +8,7 @@ from util import main, OneShot
 class Pulser(Elaboratable):
     """Does its best to do 32 equally spaced pusles for ever pulse of hall_in"""
 
-    def __init__(self, counter_width=10, rounding=2):
+    def __init__(self, counter_width=10, rounding=0):
         self.hall_in = Signal()
         self.divisor = Signal(counter_width)
 

@@ -11,7 +11,7 @@ from pulser import Pulser
 from util import cocotb_header, counter_coro, divided_clock
 
 
-ROUNDING = 2
+ROUNDING = 0
 
 
 @cocotb.test()
