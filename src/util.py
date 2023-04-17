@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+from itertools import chain
+
 from amaranth import *
 import amaranth.cli
 
@@ -47,3 +49,26 @@ async def counter_coro(dut, signal, counter):
     while True:
         await RisingEdge(dut.clk)
         counter[0] += int(signal.value)
+
+
+async def send_bitstream(dut, bitsream):
+    await RisingEdge(dut.clk)
+    dut.cs_n.value = 0
+    for bit in bitsream:
+        dut.sck.value = 0
+        dut.mosi.value = bit
+        await RisingEdge(dut.clk)
+        dut.sck.value = 1
+        await RisingEdge(dut.clk)
+    dut.cs_n.value = 1
+    dut.sck.value = 0
+    dut.mosi.value = 0
+    await RisingEdge(dut.clk)
+
+
+def bytes_to_bitstream(data):
+    return list(
+        chain.from_iterable(
+            [byte & (1 << bit) != 0 for bit in range(7, -1, -1)] for byte in data
+        )
+    )

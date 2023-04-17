@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-from itertools import chain
 
 from amaranth import *
 
@@ -11,7 +10,7 @@ from cocotb.triggers import ClockCycles, RisingEdge
 from cocotb_test.simulator import Icarus
 
 from spi import SPI
-from util import cocotb_header
+from util import bytes_to_bitstream, cocotb_header, send_bitstream
 
 
 async def collect_bus_data(dut, result: list[int]):
@@ -85,29 +84,6 @@ async def unstable_clock(dut):
     await ClockCycles(dut.clk, 2)
 
     assert result == [0xAA]
-
-
-async def send_bitstream(dut, bitsream):
-    await RisingEdge(dut.clk)
-    dut.cs_n.value = 0
-    for bit in bitsream:
-        dut.sck.value = 0
-        dut.mosi.value = bit
-        await RisingEdge(dut.clk)
-        dut.sck.value = 1
-        await RisingEdge(dut.clk)
-    dut.cs_n.value = 1
-    dut.sck.value = 0
-    dut.mosi.value = 0
-    await RisingEdge(dut.clk)
-
-
-def bytes_to_bitstream(data):
-    return list(
-        chain.from_iterable(
-            [byte & (1 << bit) != 0 for bit in range(7, -1, -1)] for byte in data
-        )
-    )
 
 
 @cocotb.test()

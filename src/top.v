@@ -266,10 +266,12 @@ module display(rst, cs_n, sck, mosi, hall_in, leds, clk);
   );
   always @* begin
     if (\$auto$verilog_backend.cc:2083:dump_module$3 ) begin end
-    leds = 8'h00;
+    (* full_case = 32'd1 *)
     casez (controller_oe)
       1'h1:
           leds = mem_out;
+      default:
+          leds = 8'h00;
     endcase
   end
   assign mem_advance = \$1 ;

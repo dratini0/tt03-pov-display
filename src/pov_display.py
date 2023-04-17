@@ -39,6 +39,8 @@ class PovDisplay(Elaboratable):
 
         with m.If(self._controller.oe):
             m.d.comb += self.leds.eq(self._mem.out)
+        with m.Else():
+            m.d.comb += self.leds.eq(0)
 
         return m
 
@@ -48,7 +50,6 @@ class PovDisplay(Elaboratable):
             self.sck,
             self.mosi,
             self.hall_in,
-            self.leds,
             self.leds,
         ]
 
