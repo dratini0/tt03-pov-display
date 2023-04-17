@@ -31,7 +31,7 @@ async def stable_clock(dut):
     await ClockCycles(dut.clk, 25)
     assert counter[0] == 0
 
-    for divisor in range(32, 96, 16):
+    for divisor in [32, 48, 64, 96]:
         dut.divisor.value = divisor
         for period in range(50, 1000, 37):
             if period < divisor + 10:
@@ -58,7 +58,7 @@ async def unstable_clock(dut):
 
     for _ in range(10):
         for _ in range(20):
-            dut.divisor.value = choice(range(32, 96, 16))
+            dut.divisor.value = choice([32, 48, 64, 96])
             dut.hall_in.value = 1
             await ClockCycles(dut.clk, randint(50, 500))
             dut.hall_in.value = 0

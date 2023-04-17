@@ -21,7 +21,7 @@ async def bench(dut):
     await cocotb_header(dut)
     counter = [0]
     cocotb.start_soon(counter_coro(dut, dut.advance, counter))
-    for divisor in range(32, 96, 16):
+    for divisor in [32, 48, 64, 96]:
         dut.divisor.value = divisor
         for period in range(50, 1000, 37):
             if period < divisor + 10:

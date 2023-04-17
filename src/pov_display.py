@@ -34,11 +34,19 @@ class PovDisplay(Elaboratable):
             self._spi.mosi.eq(self.mosi),
             self._controller.hall_in.eq(self.hall_in),
             self._controller.cs_n.eq(self.cs_n),
-            self._controller.divisor.eq((self.divisor + 2) << 4),
             self._mem.in_.eq(self._spi.data),
             self._mem.write.eq(self._spi.we),
             self._mem.advance.eq(self._controller.advance | self._spi.we),
         ]
+
+        with m.If(self.divisor == 0):
+            m.d.comb += self._controller.divisor.eq(32)
+        with m.Elif(self.divisor == 1):
+            m.d.comb += self._controller.divisor.eq(48)
+        with m.Elif(self.divisor == 2):
+            m.d.comb += self._controller.divisor.eq(64)
+        with m.Elif(self.divisor == 3):
+            m.d.comb += self._controller.divisor.eq(96)
 
         with m.If(self._controller.oe):
             m.d.comb += self.leds.eq(self._mem.out)

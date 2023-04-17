@@ -100,7 +100,7 @@ module _pulser(rst, hall_in, divisor, advance, clk);
   assign \$23  = { 2'h0, divisor[9:2] };
 endmodule
 
-module controller(rst, hall_in, cs_n, divisor, advance, oe, clk);
+module controller(rst, hall_in, cs_n, advance, divisor, oe, clk);
   reg \$auto$verilog_backend.cc:2083:dump_module$2  = 0;
   wire \$1 ;
   wire \$11 ;
@@ -202,14 +202,16 @@ endmodule
 
 module display(rst, cs_n, sck, mosi, hall_in, divisor, leds, clk);
   reg \$auto$verilog_backend.cc:2083:dump_module$3  = 0;
-  wire [2:0] \$1 ;
-  wire [9:0] \$3 ;
+  wire \$1 ;
+  wire \$3 ;
   wire \$5 ;
+  wire \$7 ;
+  wire \$9 ;
   input clk;
   wire clk;
   wire controller_advance;
   wire controller_cs_n;
-  wire [9:0] controller_divisor;
+  reg [9:0] controller_divisor;
   wire controller_hall_in;
   wire controller_oe;
   input cs_n;
@@ -235,8 +237,11 @@ module display(rst, cs_n, sck, mosi, hall_in, divisor, leds, clk);
   wire spi_mosi;
   wire spi_sck;
   wire spi_we;
-  assign \$1  = divisor + 2'h2;
-  assign \$5  = controller_advance | spi_we;
+  assign \$9  = divisor == 2'h3;
+  assign \$1  = controller_advance | spi_we;
+  assign \$3  = ! divisor;
+  assign \$5  = divisor == 1'h1;
+  assign \$7  = divisor == 2'h2;
   controller controller (
     .advance(controller_advance),
     .clk(clk),
@@ -265,6 +270,20 @@ module display(rst, cs_n, sck, mosi, hall_in, divisor, leds, clk);
   );
   always @* begin
     if (\$auto$verilog_backend.cc:2083:dump_module$3 ) begin end
+    controller_divisor = 10'h000;
+    casez ({ \$9 , \$7 , \$5 , \$3  })
+      4'b???1:
+          controller_divisor = 10'h020;
+      4'b??1?:
+          controller_divisor = 10'h030;
+      4'b?1??:
+          controller_divisor = 10'h040;
+      4'b1???:
+          controller_divisor = 10'h060;
+    endcase
+  end
+  always @* begin
+    if (\$auto$verilog_backend.cc:2083:dump_module$3 ) begin end
     (* full_case = 32'd1 *)
     casez (controller_oe)
       1'h1:
@@ -273,16 +292,14 @@ module display(rst, cs_n, sck, mosi, hall_in, divisor, leds, clk);
           leds = 8'h00;
     endcase
   end
-  assign mem_advance = \$5 ;
+  assign mem_advance = \$1 ;
   assign mem_write = spi_we;
   assign mem_in_ = spi_data;
-  assign controller_divisor = \$3 ;
   assign controller_cs_n = cs_n;
   assign controller_hall_in = hall_in;
   assign spi_mosi = mosi;
   assign spi_sck = sck;
   assign spi_cs_n = cs_n;
-  assign \$3  = { 3'h0, \$1 , 4'h0 };
 endmodule
 
 module dratini0_pov_display_top(io_out, io_in);
