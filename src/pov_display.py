@@ -14,6 +14,8 @@ class PovDisplay(Elaboratable):
         self.sck = Signal()
         self.mosi = Signal()
         self.hall_in = Signal()
+        self.divisor = Signal(2)
+
         self.leds = Signal(width)
 
         self._mem = LoopMemory(width=width, depth=depth)
@@ -32,6 +34,7 @@ class PovDisplay(Elaboratable):
             self._spi.mosi.eq(self.mosi),
             self._controller.hall_in.eq(self.hall_in),
             self._controller.cs_n.eq(self.cs_n),
+            self._controller.divisor.eq((self.divisor + 2) << 4),
             self._mem.in_.eq(self._spi.data),
             self._mem.write.eq(self._spi.we),
             self._mem.advance.eq(self._controller.advance | self._spi.we),
@@ -50,6 +53,7 @@ class PovDisplay(Elaboratable):
             self.sck,
             self.mosi,
             self.hall_in,
+            self.divisor,
             self.leds,
         ]
 

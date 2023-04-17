@@ -10,11 +10,12 @@ class Controller(Elaboratable):
     def __init__(self, depth):
         self.hall_in = Signal()
         self.cs_n = Signal()
+        self.divisor = Signal(10)
 
         self.advance = Signal()
         self.oe = Signal()
 
-        self._pulser = Pulser(divisor=depth.bit_length())
+        self._pulser = Pulser()
         self._hall_edge = OneShot()
         self._state = Signal(1, reset_less=True)
         self._count = Signal(range(0, depth + 1), reset_less=True)
@@ -27,6 +28,7 @@ class Controller(Elaboratable):
         m.submodules._pulser = self._pulser
         m.d.comb += [
             self._pulser.hall_in.eq(self.hall_in),
+            self._pulser.divisor.eq(self.divisor),
             self.advance.eq(self._pulser.advance),
         ]
 
@@ -57,7 +59,7 @@ class Controller(Elaboratable):
         return m
 
     def get_ports(self):
-        return [self.hall_in, self.cs_n, self.advance, self.oe]
+        return [self.hall_in, self.cs_n, self.divisor, self.advance, self.oe]
 
 
 if __name__ == "__main__":

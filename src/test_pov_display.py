@@ -24,16 +24,19 @@ async def stable_clock(dut):
     dut.cs_n.value = 1
     dut.sck.value = 0
     dut.mosi.value = 0
+    dut.divisor.value = 0
     await cocotb_header(dut)
     divided_clock_task = cocotb.start_soon(divided_clock(dut, 50))
     await send_bitstream(dut, bytes_to_bitstream(range(1, 25)))
     await RisingEdge(dut.hall_in)
     divided_clock_task.cancel()
 
-    for divider in range(50, 1000, 37):
-        divided_clock_task = cocotb.start_soon(divided_clock(dut, divider))
-        await ClockCycles(dut.hall_in, 3)
-        divided_clock_task.cancel()
+    for divisor in range(4):
+        for period in range(50, 1000, 37):
+            dut.divisor.value = divisor
+            divided_clock_task = cocotb.start_soon(divided_clock(dut, period))
+            await ClockCycles(dut.hall_in, 3)
+            divided_clock_task.cancel()
 
 
 def test_pov_display():

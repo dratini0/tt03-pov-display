@@ -8,12 +8,12 @@ from util import main, OneShot
 class Pulser(Elaboratable):
     """Does its best to do 32 equally spaced pusles for ever pulse of hall_in"""
 
-    def __init__(self, counter_width=10, divisor=5, rounding=2):
+    def __init__(self, counter_width=10, rounding=2):
         self.hall_in = Signal()
+        self.divisor = Signal(counter_width)
 
         self.advance = Signal()
 
-        self._divisor = divisor
         self._rounding = rounding
         self._hall_edge = OneShot()
         self._counter = Signal(counter_width, reset_less=True)
@@ -26,7 +26,7 @@ class Pulser(Elaboratable):
         m.d.comb += self._hall_edge.in_.eq(self.hall_in)
 
         m.d.comb += self.advance.eq(
-            self._comparison_signal + (1 << (self._divisor - self._rounding))
+            self._comparison_signal + (self.divisor >> self._rounding)
             >= self._last_total
         )
         with m.If(self._hall_edge.out):
@@ -40,18 +40,18 @@ class Pulser(Elaboratable):
             with m.If(self.advance):
                 m.d.sync += self._comparison_signal.eq(
                     self._comparison_signal
-                    + (1 << (self._divisor - self._rounding))
+                    + (self.divisor >> self._rounding)
                     - self._last_total
                 )
             with m.Else():
                 m.d.sync += self._comparison_signal.eq(
-                    self._comparison_signal + (1 << (self._divisor - self._rounding))
+                    self._comparison_signal + (self.divisor >> self._rounding)
                 )
 
         return m
 
     def get_ports(self):
-        return [self.hall_in, self.advance]
+        return [self.hall_in, self.divisor, self.advance]
 
 
 if __name__ == "__main__":

@@ -6,7 +6,7 @@ import amaranth.cli
 
 import cocotb
 from cocotb.clock import Clock
-from cocotb.triggers import ClockCycles, RisingEdge
+from cocotb.triggers import ClockCycles, RisingEdge, Timer
 
 
 class OneShot(Elaboratable):
@@ -30,6 +30,9 @@ def main(fragment):
 
 
 async def cocotb_header(dut):
+    dut.clk.value = 0
+    dut.rst.value = 0
+    await Timer(80, "us")
     cocotb.start_soon(Clock(dut.clk, 80, units="us").start())
     dut.rst.value = 1
     await ClockCycles(dut.clk, 5)
@@ -37,12 +40,12 @@ async def cocotb_header(dut):
     await ClockCycles(dut.clk, 5)
 
 
-async def divided_clock(dut, factor):
+async def divided_clock(dut, period):
     while True:
         dut.hall_in.value = 1
-        await ClockCycles(dut.clk, factor // 2)
+        await ClockCycles(dut.clk, period // 2)
         dut.hall_in.value = 0
-        await ClockCycles(dut.clk, factor - factor // 2)
+        await ClockCycles(dut.clk, period - period // 2)
 
 
 async def counter_coro(dut, signal, counter):

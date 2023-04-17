@@ -23,6 +23,7 @@ class PovDisplayTop(Elaboratable):
         sck = self.io_in[3]
         mosi = self.io_in[4]
         hall_in = self.io_in[5]
+        divisor = self.io_in[6:8]
 
         # Set up clock domain from io_in[0] and reset from io_in[1].
         cd_sync = ClockDomain("sync")
@@ -37,6 +38,7 @@ class PovDisplayTop(Elaboratable):
             self.display.sck.eq(sck),
             self.display.mosi.eq(mosi),
             self.display.hall_in.eq(hall_in),
+            self.display.divisor.eq(divisor),
             self.io_out.eq(self.display.leds),
         ]
 
