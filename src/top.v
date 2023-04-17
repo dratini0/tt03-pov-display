@@ -200,9 +200,10 @@ module controller(rst, hall_in, cs_n, advance, divisor, oe, clk);
   assign _pulser_hall_in = hall_in;
 endmodule
 
-module display(rst, cs_n, sck, mosi, hall_in, divisor, leds, clk);
+module display(rst, cs_n, sck, mosi, hall_in, hall_invert, divisor, leds, clk);
   reg \$auto$verilog_backend.cc:2083:dump_module$3  = 0;
   wire \$1 ;
+  wire \$11 ;
   wire \$3 ;
   wire \$5 ;
   wire \$7 ;
@@ -220,6 +221,8 @@ module display(rst, cs_n, sck, mosi, hall_in, divisor, leds, clk);
   wire [1:0] divisor;
   input hall_in;
   wire hall_in;
+  input hall_invert;
+  wire hall_invert;
   output [7:0] leds;
   reg [7:0] leds;
   wire mem_advance;
@@ -237,11 +240,12 @@ module display(rst, cs_n, sck, mosi, hall_in, divisor, leds, clk);
   wire spi_mosi;
   wire spi_sck;
   wire spi_we;
-  assign \$9  = divisor == 2'h3;
-  assign \$1  = controller_advance | spi_we;
-  assign \$3  = ! divisor;
-  assign \$5  = divisor == 1'h1;
-  assign \$7  = divisor == 2'h2;
+  assign \$9  = divisor == 2'h2;
+  assign \$11  = divisor == 2'h3;
+  assign \$1  = hall_in ^ hall_invert;
+  assign \$3  = controller_advance | spi_we;
+  assign \$5  = ! divisor;
+  assign \$7  = divisor == 1'h1;
   controller controller (
     .advance(controller_advance),
     .clk(clk),
@@ -271,7 +275,7 @@ module display(rst, cs_n, sck, mosi, hall_in, divisor, leds, clk);
   always @* begin
     if (\$auto$verilog_backend.cc:2083:dump_module$3 ) begin end
     controller_divisor = 10'h000;
-    casez ({ \$9 , \$7 , \$5 , \$3  })
+    casez ({ \$11 , \$9 , \$7 , \$5  })
       4'b???1:
           controller_divisor = 10'h020;
       4'b??1?:
@@ -292,11 +296,11 @@ module display(rst, cs_n, sck, mosi, hall_in, divisor, leds, clk);
           leds = 8'h00;
     endcase
   end
-  assign mem_advance = \$1 ;
+  assign mem_advance = \$3 ;
   assign mem_write = spi_we;
   assign mem_in_ = spi_data;
   assign controller_cs_n = cs_n;
-  assign controller_hall_in = hall_in;
+  assign controller_hall_in = \$1 ;
   assign spi_mosi = mosi;
   assign spi_sck = sck;
   assign spi_cs_n = cs_n;
@@ -307,6 +311,7 @@ module dratini0_pov_display_top(io_out, io_in);
   wire display_cs_n;
   wire [1:0] display_divisor;
   wire display_hall_in;
+  wire display_hall_invert;
   wire [7:0] display_leds;
   wire display_mosi;
   wire display_rst;
@@ -320,18 +325,20 @@ module dratini0_pov_display_top(io_out, io_in);
     .cs_n(display_cs_n),
     .divisor(display_divisor),
     .hall_in(display_hall_in),
+    .hall_invert(display_hall_invert),
     .leds(display_leds),
     .mosi(display_mosi),
-    .rst(display_rst),
+    .rst(1'h0),
     .sck(display_sck)
   );
   assign io_out = display_leds;
   assign display_divisor = io_in[7:6];
-  assign display_hall_in = io_in[5];
-  assign display_mosi = io_in[4];
-  assign display_sck = io_in[3];
-  assign display_cs_n = io_in[2];
-  assign display_rst = io_in[1];
+  assign display_hall_invert = io_in[5];
+  assign display_hall_in = io_in[4];
+  assign display_mosi = io_in[3];
+  assign display_sck = io_in[2];
+  assign display_cs_n = io_in[1];
+  assign display_rst = 1'h0;
   assign display_clk = io_in[0];
 endmodule
 

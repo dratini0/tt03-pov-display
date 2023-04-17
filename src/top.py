@@ -18,17 +18,17 @@ class PovDisplayTop(Elaboratable):
         m = Module()
 
         clk_in = self.io_in[0]
-        rst_in = self.io_in[1]
-        cs_n = self.io_in[2]
-        sck = self.io_in[3]
-        mosi = self.io_in[4]
-        hall_in = self.io_in[5]
+        cs_n = self.io_in[1]
+        sck = self.io_in[2]
+        mosi = self.io_in[3]
+        hall_in = self.io_in[4]
+        hall_invert = self.io_in[5]
         divisor = self.io_in[6:8]
 
-        # Set up clock domain from io_in[0] and reset from io_in[1].
+        # Set up clock domain from io_in[0]
         cd_sync = ClockDomain("sync")
         m.d.comb += cd_sync.clk.eq(clk_in)
-        m.d.comb += cd_sync.rst.eq(rst_in)
+        m.d.comb += cd_sync.rst.eq(0)
         m.domains += cd_sync
 
         # Tie POV display to pins
@@ -38,6 +38,7 @@ class PovDisplayTop(Elaboratable):
             self.display.sck.eq(sck),
             self.display.mosi.eq(mosi),
             self.display.hall_in.eq(hall_in),
+            self.display.hall_invert.eq(hall_invert),
             self.display.divisor.eq(divisor),
             self.io_out.eq(self.display.leds),
         ]

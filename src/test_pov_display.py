@@ -21,6 +21,7 @@ from util import (
 @cocotb.test()
 async def stable_clock(dut):
     dut.hall_in.value = 0
+    dut.hall_invert = 0
     dut.cs_n.value = 1
     dut.sck.value = 0
     dut.mosi.value = 0
