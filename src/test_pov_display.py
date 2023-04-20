@@ -7,7 +7,7 @@ from amaranth_cocotb import run, get_current_module
 
 import cocotb
 from cocotb.triggers import ClockCycles, RisingEdge
-from cocotb_test.simulator import Icarus
+from cocotb_test.simulator import Icarus, run as cocotb_run
 
 from pov_display import PovDisplay
 from util import (
@@ -48,4 +48,26 @@ def test_pov_display():
         ports=pov_display.get_ports(),
         simulator=Icarus,
         vcd_file="test_pov_display.vcd",
+    )
+
+
+def test_gatelevel():
+    cocotb_run(
+        "icarus",
+        toplevel="tb",
+        module=get_current_module(),
+        verilog_sources=[
+            "src/tb.v",
+            "runs/wokwi/results/final/verilog/gl/dratini0_pov_display_top.v",
+            "PDK/sky130A/libs.ref/sky130_fd_sc_hd/verilog/primitives.v",
+            "PDK/sky130A/libs.ref/sky130_fd_sc_hd/verilog/sky130_fd_sc_hd.v",
+        ],
+        defines=[
+            "GL_TEST",
+            "FUNCTIONAL",
+            "USE_POWER_PINS",
+            "SIM",
+            "UNIT_DELAY=#1",
+        ],
+        waves="test_pov_display_gl.vcd",
     )

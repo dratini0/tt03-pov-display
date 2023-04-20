@@ -12,6 +12,7 @@ tt-support-tools
 OpenLane
 PDK
 gds_render*
+sim_build
 
 # Created by https://www.toptal.com/developers/gitignore/api/pythonvanilla
 # Edit at https://www.toptal.com/developers/gitignore?templates=pythonvanilla
